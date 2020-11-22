@@ -30,13 +30,12 @@ import { rebuildAndRestartIfNeeded } from "./needs_rebuild";
   console.log("give execution right");
   chmodSync(resolve(frontendDistPath), "755");
 
-  console.log("starting server");
-  await execAndLog("webpack-dev-server", [
+  console.log("starting server"); 
+  await execAndLog("yarn", [
+    "webpack-dev-server",
     "--mode",
     "development",
     "--open",
     "--hot",
-    "--config",
-    frontendServerConfigPath,
   ]);
 })();
