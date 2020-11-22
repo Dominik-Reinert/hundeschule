@@ -3,8 +3,10 @@
 import express from "express";
 import "express-async-errors";
 import path from "path";
+import cors from "cors";
 
 const app = express();
+app.use(cors({ origin: "http://localhost:8080" }));
 
 app.use(express.static(path.join(__dirname, "../dist")));
 
