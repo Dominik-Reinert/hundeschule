@@ -1,7 +1,23 @@
 import React from "react";
 
 function App() {
-  
+  const useButtonComponentStyle = () => {
+    const hoverStyle = useButtonHoverStyle(false);
+    return css`
+      label: button;
+      cursor: pointer;
+
+      color: ${theme.grayscale.labelOnColor};
+      background-color: ${theme.colors.normal};
+      text-align: center;
+      text-transform: uppercase;
+
+      ${hoverStyle}
+
+      padding: 8px;
+    `;
+  };
+
   return (
     <div className="App">
       <header className="App-header">
