@@ -43,6 +43,7 @@
     "@testing-library/user-event": "^12.1.10"
   },
   "scripts": {
+    "setup:infra": "./src/infra/setup.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
