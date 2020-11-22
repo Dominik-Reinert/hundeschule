@@ -2,22 +2,9 @@ import { css } from "@emotion/core";
 import React from "react";
 
 function App() {
-  const useButtonComponentStyle = () => {
-    return css`
-      label: button;
-      cursor: pointer;
-
-      text-align: center;
-      text-transform: uppercase;
-
-      padding: 8px;
-    `;
-  };
-
-  const style = useButtonComponentStyle();
 
   return (
-    <div className="App" css={style}>
+    <div className="App" css={css`pointer: cursor;`}>
       <header className="App-header">
         <p>
           Edit <code>src/App.tsx</code> and save to reload.

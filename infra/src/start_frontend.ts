@@ -4,6 +4,7 @@ import { chmodSync, existsSync, readdirSync, unlinkSync } from "fs";
 import { basename, resolve } from "path";
 import {
   frontendDistPath,
+  frontendServerConfigPath,
   frontendTsConfigPath,
   typescriptCommandpath,
 } from "./common_path";
@@ -35,5 +36,7 @@ import { rebuildAndRestartIfNeeded } from "./needs_rebuild";
     "development",
     "--open",
     "--hot",
+    "--config",
+    frontendServerConfigPath,
   ]);
 })();

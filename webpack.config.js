@@ -1,13 +1,24 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+const distPath = path.resolve(__dirname, "./front/dist");
+const publicPath = path.resolve(__dirname, "./public");
+const publicDistPath = path.resolve(publicPath, "./dist");
+const publicFavIconPath = path.resolve(publicPath, "./favicon.ico");
+const publicIndexPath = path.resolve(publicPath, "./index.html");
+
 module.exports = {
+  mode: "development",
+
   // webpack will take the files from ./src/index
-  entry: path.join(__dirname,"./dist/index"),
+  entry: [ 
+    path.resolve('./front/src/index.tsx')
+  ],
+
   // and output it into /dist as bundle.js
   output: {
-    path: path.join(__dirname, "/dist"),
+    path: publicDistPath,
     filename: "bundle.js",
-    publicPath: "/",
   },
   // adding .ts and .tsx to resolve.extensions will help babel look for .ts and .tsx files to transpile
   resolve: {
@@ -35,13 +46,17 @@ module.exports = {
       },
     ],
   },
+  devtool: "source-map",
   devServer: {
+    hot: true,
     historyApiFallback: true,
+    port: 8080
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "../public/index.html",
-      favicon: "../public/favicon.ico",
+      template: (() => {
+        console.log(`templateindex path: ${publicIndexPath}`)
+        return path.resolve('./front/src/index.html')})(),
     }),
   ],
 };

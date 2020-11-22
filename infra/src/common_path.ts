@@ -15,6 +15,7 @@ export const frontendPath = resolve(__dirname, '../../front');
 export const frontendTsConfigPath = resolve(frontendPath, './tsconfig.json');
 export const frontendSrcPath = resolve(frontendPath, './src');
 export const frontendDistPath = resolve(frontendPath, './dist');
+export const frontendServerConfigPath = resolve(frontendPath, '../webpack.config.js');
 
 export const nodeModulesPath = resolve(__dirname, '../../node_modules')
 export const typescriptCommandpath = resolve(nodeModulesPath, './typescript/bin/tsc')
