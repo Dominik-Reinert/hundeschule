@@ -42,10 +42,7 @@
   "scripts": {
     "setup:infra": "./infra/setup.js",
     "start:front": "cp ./package.json ./front; cd front; env DISABLE_NEW_JSX_TRANSFORM=true  react-scripts start",
-    "start:back": "./infra/dist/start_backend.js",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start:back": "./infra/dist/start_backend.js"
   },
   "proxy": "http://localhost:8080",
   "eslintConfig": {
