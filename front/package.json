@@ -25,10 +25,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0-next.98",
-    "web-vitals": "^0.2.4",
-    "webpack": "4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "web-vitals": "^0.2.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -44,7 +41,7 @@
   },
   "scripts": {
     "setup:infra": "./infra/setup.js",
-    "start:front": "react-scripts start",
+    "start:front": "cp ./package.json ./front; cd front; env DISABLE_NEW_JSX_TRANSFORM=true  react-scripts start",
     "start:back": "./infra/dist/start_backend.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
