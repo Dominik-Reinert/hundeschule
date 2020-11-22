@@ -8,7 +8,7 @@ export function rebuildAndRestartIfNeeded(force: boolean): void {
   if (rebuildAllIfNeeded(force)) {
     console.log(`restarting process`);
     process.once("exit", () => {
-      spawn(process.argv.shift(), process.argv, {
+      spawn((process.argv as any).shift(), process.argv, {
         cwd: process.cwd(),
         detached: true,
         stdio: "inherit",
@@ -23,7 +23,12 @@ function rebuildAllIfNeeded(force: boolean): boolean {
   let restartNeeded: boolean = false;
   if (force || checkDirHash(scriptsSrcPath)) {
     console.log("Compiling...");
-    spawnSync(`tsc`, ["--build", "scripts/tsconfig.json"]);
+    spawnSync(`tsc`, ["--build", resolve(__dirname, "../tsconfig.json")], {
+      cwd: process.cwd(),
+      env: process.env,
+      stdio: "pipe",
+      encoding: "utf-8",
+    });
     restartNeeded = true;
   } else {
     console.log("No changes detected");
