@@ -1,25 +1,23 @@
+import { css } from "@emotion/core";
 import React from "react";
 
 function App() {
   const useButtonComponentStyle = () => {
-    const hoverStyle = useButtonHoverStyle(false);
     return css`
       label: button;
       cursor: pointer;
 
-      color: ${theme.grayscale.labelOnColor};
-      background-color: ${theme.colors.normal};
       text-align: center;
       text-transform: uppercase;
-
-      ${hoverStyle}
 
       padding: 8px;
     `;
   };
 
+  const style = useButtonComponentStyle();
+
   return (
-    <div className="App">
+    <div className="App" css={style}>
       <header className="App-header">
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
