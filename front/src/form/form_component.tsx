@@ -17,7 +17,8 @@ const useFormComponentStyle = () => {
     label: form-component;
 
     border: 1px solid ${theme.grayscale.borderOnBackground};
-    width: 200px;
+    min-width: 200px;
+    width: fit-content;
 
     padding: 16px;
     margin: auto;

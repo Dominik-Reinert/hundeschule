@@ -2,7 +2,7 @@ import { css } from "@emotion/core";
 import * as React from "react";
 import { usePageBaseTheme } from "../hooks/use_page_base_theme";
 
-interface TextInputComponentProps {
+export interface TextInputComponentProps {
   ref?: React.MutableRefObject<HTMLDivElement>;
   hint: string;
   onChange?: (currentValue: string) => void;
