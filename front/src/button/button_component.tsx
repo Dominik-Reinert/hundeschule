@@ -26,6 +26,7 @@ function useButtonComponentStyle() {
 
     padding: ${theme.padding};
     margin: auto;
+    cursor: pointer;
 
     text-align: center;
 

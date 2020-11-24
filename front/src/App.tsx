@@ -16,16 +16,55 @@ function App() {
   const [currentStep, setCurrentStep] = React.useState(CurrentStep.ENTRY);
   return (
     <PageBase>
-      <FormComponent>
+      <FormComponent title="Willkommen!">
         <ButtonComponent
           label={"Neue Prüfung erstellen"}
           onClick={() => setCurrentStep(CurrentStep.CLUB)}
         />
       </FormComponent>
-      <FormComponent>
+      <FormComponent title="Angaben zum Verein">
         <DescribedTextInput description={"Landesverband:"} hint={"world"} />
         <DescribedTextInput description={"Kreisverband:"} hint={"world"} />
         <DescribedTextInput description={"Vereinsname:"} hint={"world"} />
+        <ButtonComponent
+          label={"Weiter"}
+          onClick={() => setCurrentStep(CurrentStep.DATE)}
+        />
+      </FormComponent>
+      <FormComponent title="Angaben zur Prüfung">
+        <DescribedTextInput description={"Datum der Prüfung:"} hint={"world"} />
+        <DescribedTextInput description={"Ort der Prüfung:"} hint={"world"} />
+        <DescribedTextInput description={"Anzahl Teilnehmer:"} hint={"world"} />
+        <ButtonComponent
+          label={"Weiter"}
+          onClick={() => setCurrentStep(CurrentStep.DATE)}
+        />
+      </FormComponent>
+      <FormComponent title="Angaben zum Kursleiter">
+        <DescribedTextInput description={"Name, Vorname:"} hint={"world"} />
+        <DescribedTextInput description={"DVG Mitgl.-Nr.:"} hint={"world"} />
+        <DescribedTextInput description={"Kursbeginn:"} hint={"world"} />
+        <DescribedTextInput description={"PLZ/Ort des Kurses:"} hint={"world"} />
+        <ButtonComponent
+          label={"Weiter"}
+          onClick={() => setCurrentStep(CurrentStep.DATE)}
+        />
+      </FormComponent>
+      <FormComponent title="Angaben zum Prüfer">
+        <DescribedTextInput description={"Name, Vorname:"} hint={"world"} />
+        <DescribedTextInput description={"DVG Mitgl.-Nr.:"} hint={"world"} />
+        <DescribedTextInput description={"Strasse, PLZ, Ort:"} hint={"world"} />
+        <DescribedTextInput description={"Telefon, Fax:"} hint={"world"} />
+        <DescribedTextInput description={"Mobil, E-mail:"} hint={"world"} />
+        <ButtonComponent
+          label={"Weiter"}
+          onClick={() => setCurrentStep(CurrentStep.DATE)}
+        />
+      </FormComponent>
+      <FormComponent title="Vereinsvorsitzender">
+        <DescribedTextInput description={"Name, Vorname:"} hint={"world"} />
+        <DescribedTextInput description={"DVG Mitgl.-Nr.:"} hint={"world"} />
+        <DescribedTextInput description={"Strasse, PLZ, Ort:"} hint={"world"} />
         <ButtonComponent
           label={"Weiter"}
           onClick={() => setCurrentStep(CurrentStep.DATE)}
