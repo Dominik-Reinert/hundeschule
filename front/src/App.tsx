@@ -1,25 +1,8 @@
-import { css } from "@emotion/core";
 import React from "react";
+import { PageBase } from "./page_base/page_base";
 
 function App() {
-
-  return (
-    <div className="App" css={css`pointer: cursor;`}>
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <PageBase>asdf</PageBase>;
 }
 
 export default App;
