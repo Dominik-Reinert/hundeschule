@@ -23,6 +23,7 @@ export interface PageBaseTheme {
     background: string;
     labelOnColor: string;
   };
+  padding: string;
 }
 
 export const orangeTheme: PageBaseTheme = {
@@ -60,4 +61,5 @@ export const orangeTheme: PageBaseTheme = {
     labelOnColor: "#fafafa",
     background: "#f5f5f5",
   },
+  padding: "8px",
 };
