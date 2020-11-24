@@ -27,6 +27,7 @@ function useDescribedTextInputStyle() {
     labeld: described-text-input;
 
     display: flex;
+    justify-content: space-between;
 
     .description {
       padding: ${theme.padding};

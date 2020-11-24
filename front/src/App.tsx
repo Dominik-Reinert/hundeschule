@@ -23,7 +23,9 @@ function App() {
         />
       </FormComponent>
       <FormComponent>
-        <DescribedTextInput description={"hello:"} hint={"world"} />
+        <DescribedTextInput description={"Landesverband:"} hint={"world"} />
+        <DescribedTextInput description={"Kreisverband:"} hint={"world"} />
+        <DescribedTextInput description={"Vereinsname:"} hint={"world"} />
         <ButtonComponent
           label={"Weiter"}
           onClick={() => setCurrentStep(CurrentStep.DATE)}
