@@ -19,3 +19,4 @@ export const frontendServerConfigPath = resolve(frontendPath, '../webpack.config
 
 export const nodeModulesPath = resolve(__dirname, '../../node_modules')
 export const typescriptCommandpath = resolve(nodeModulesPath, './typescript/bin/tsc')
+export const nodemonCommandpath = resolve(nodeModulesPath, './nodemon/bin/nodemon.js')
