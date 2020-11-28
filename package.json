@@ -101,7 +101,7 @@
   },
   "scripts": {
     "setup:infra": "./infra/setup.js",
-    "start:front": "./infra/dist/start_frontend.js",
+    "start:front": "webpack-dev-server",
     "start:back": "cd back; nodemon"
   },
   "homepage": "http://localhost:8080/public",

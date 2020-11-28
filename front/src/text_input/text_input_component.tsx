@@ -13,7 +13,7 @@ export const TextInputComponent = (
 ) => {
   const [focused, setFocused] = React.useState(false);
   const style = useTextInputStyle(focused);
-  const inputRef: React.MutableRefObject<HTMLInputElement> = React.useRef();
+  const inputRef: React.MutableRefObject<HTMLInputElement> = React.useRef<HTMLInputElement>(undefined as any);
 
   return (
     <div css={style}>

@@ -1,41 +1,29 @@
 #!/usr/bin/env node
 
-import { chmodSync, existsSync, readdirSync, unlinkSync } from "fs";
+import { existsSync, lstatSync, readdirSync, unlinkSync } from "fs";
 import { basename, resolve } from "path";
-import {
-  frontendDistPath,
-  frontendServerConfigPath,
-  frontendTsConfigPath,
-  typescriptCommandpath,
-} from "./common_path";
 import { execAndLog } from "./exect_and_log";
 import { rebuildAndRestartIfNeeded } from "./needs_rebuild";
+
+function deleteFolderRecursive(folderName: string): void {
+  if (existsSync(folderName)) {
+    readdirSync(folderName).forEach((file) => {
+      const filePath: string = resolve(folderName, file);
+      if (basename(filePath) !== "index.html") {
+        if (lstatSync(filePath).isDirectory()) {
+          deleteFolderRecursive(filePath);
+        } else {
+          unlinkSync(filePath);
+        }
+      }
+    });
+  }
+}
 
 (async function startFrontend(): Promise<void> {
   console.log("checking if scripts need recompilation");
   rebuildAndRestartIfNeeded(false);
 
-  console.log("clearing frontend dist folder");
-  if (existsSync(frontendDistPath)) {
-    readdirSync(frontendDistPath).forEach((file) => {
-      if (basename(file) !== "index.html") {
-        unlinkSync(resolve(frontendDistPath, file));
-      }
-    });
-  }
-
-  console.log("compiling frontend");
-  await execAndLog(typescriptCommandpath, ["--build", frontendTsConfigPath]);
-
-  console.log("give execution right");
-  chmodSync(resolve(frontendDistPath), "755");
-
-  console.log("starting server"); 
-  await execAndLog("yarn", [
-    "webpack-dev-server",
-    "--mode",
-    "development",
-    "--open",
-    "--hot",
-  ]);
+  console.log("starting server");
+  await execAndLog("yarn", ["webpack-dev-server"]);
 })();
