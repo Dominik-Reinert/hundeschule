@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
 const { initialSetup } = require('./dist/initial_setup');
+const { createTables } = require('./dist/create_tables');
 const creds = require('../creds/postgresql.creds.json');
 
-(function start() {
+(async function start() {
     const { user, password } = creds;
-    initialSetup(user, password);
+    await initialSetup(user, password);
+    await createTables();
   })();
