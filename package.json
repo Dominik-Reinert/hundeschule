@@ -104,7 +104,8 @@
     "setup:infra": "./infra/setup.js",
     "setup:db": "tsc -p ./db/tsconfig.json; ./db/index.js",
     "start:front": "webpack-dev-server",
-    "start:back": "cd back; nodemon"
+    "start:back": "cd back; nodemon",
+    "start:db": "sudo service postgresql start"
   },
   "homepage": "http://localhost:8080/public",
   "proxy": "http://localhost:8080",
