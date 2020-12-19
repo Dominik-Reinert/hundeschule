@@ -28,3 +28,19 @@ export async function createPoolTransaction(
     client.release();
   }
 }
+
+
+export async function createPoolQuery<T = void>(
+  query: (client: PoolClient) => Promise<T>
+): Promise<T> {
+  const client = await dbPool.connect();
+  let result: T;
+  try {
+    result = await query(client);
+  } catch (e) {
+    throw e;
+  } finally {
+    client.release();
+  }
+  return result;
+}

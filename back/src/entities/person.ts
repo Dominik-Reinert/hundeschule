@@ -1,4 +1,4 @@
-import { createPoolQuery } from "../run_on_pool";
+import { createPoolQuery } from "../../db/src/run_on_pool";
 import { AbstractEntity } from "./abstract_entity";
 
 export interface Person {
