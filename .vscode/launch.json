@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "debug hundeschule back server",
+        "runtimeExecutable": "yarn",
+        "program": "start:back",
+        "autoAttachChildProcesses": true
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "debug db setup script",
+        "program": "${workspaceFolder}/db/index.js",
+        "autoAttachChildProcesses": true
+      },
+        {
+            "type": "browser-preview",
+            "name": "Browser Preview: Attach",
+            "request": "attach"
+        },
+        {
+            "type": "browser-preview",
+            "request": "launch",
+            "name": "Browser Preview: Launch",
+            "url": "http://localhost:3000"
+        }
+    ]
+}
