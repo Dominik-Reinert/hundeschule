@@ -10,8 +10,32 @@ export interface Person {
   email: string;
 }
 
+interface DatabasePerson extends Omit<Person, "dvgId"> {
+  dvg_id: string;
+}
+
+function adaptDatabasePerson(dbPersons: DatabasePerson[]): Person[] {
+  return dbPersons.map((dbPerson) => {
+    const { dvg_id, ...person } = dbPerson;
+    return {
+      ...person,
+      dvgId: dvg_id,
+    };
+  });
+}
+
 export class PersonEntity implements AbstractEntity<Person> {
   private readonly tableName: string = "person";
+
+  public async findAll(): Promise<Person[]> {
+    return adaptDatabasePerson(
+      await createPoolQuery<DatabasePerson[]>(async (client) => {
+        return (
+          await client.query<DatabasePerson>(`select * from ${this.tableName}`)
+        ).rows;
+      })
+    );
+  }
 
   public async find(id: string): Promise<Person> {
     return createPoolQuery<Person>(async (client) => {

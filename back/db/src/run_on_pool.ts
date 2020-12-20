@@ -1,7 +1,7 @@
 import { resolve } from "path";
 import { Pool, PoolClient } from "pg";
 
-const creds = require(resolve(__dirname, "../../creds/postgresql.creds.json"));
+const creds = require(resolve(__dirname, "../../../creds/postgresql.creds.json"));
 const { user, password, database } = creds;
 const dbPool = new Pool({
   user,
@@ -28,7 +28,6 @@ export async function createPoolTransaction(
     client.release();
   }
 }
-
 
 export async function createPoolQuery<T = void>(
   query: (client: PoolClient) => Promise<T>

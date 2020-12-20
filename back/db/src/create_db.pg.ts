@@ -1,5 +1,5 @@
 import { Client } from "pg";
-const creds = require("../creds/postgresql.creds.json");
+const creds = require("../../creds/postgresql.creds.json");
 
 export async function createDbPg(): Promise<void> {
   const { user, password, database } = creds;

@@ -1,0 +1,23 @@
+<table style="width:50%">
+    <tr>
+        <th>Id</th>
+        <th>dvgId</th>
+        <th>name</th>
+        <th>vorname</th>
+        <th>addresse</th>
+        <th>email</th>
+    </tr>
+    {{#each this.data.person}}
+    <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.dvgId}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.vorname}}</td>
+        <td>{{this.adresse}}</td>
+        <td>{{this.email}}</td>
+    </tr>
+    {{/each}}
+</table>
+
+
+{{debugPrint this.data.person}}
