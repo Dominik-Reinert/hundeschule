@@ -6,6 +6,8 @@ import "express-async-errors";
 import exphbs from "express-handlebars";
 import path from "path";
 import { debugPathPrefix } from "./debug_endpoints/debug_path_prefix";
+import { sendAllEntities } from "./debug_endpoints/end_d_all_entities";
+import { sendAllLandesverband } from "./debug_endpoints/end_d_all_landesverband";
 import { sendAllPerson } from "./debug_endpoints/end_d_all_person";
 
 export const app = express();
@@ -29,5 +31,9 @@ app.get("/", function (req, res) {
 });
 
 app.get(`${debugPathPrefix}/person`, (req, res) => sendAllPerson(res));
+app.get(`${debugPathPrefix}/landesverband`, (req, res) =>
+  sendAllLandesverband(res)
+);
+app.get(`${debugPathPrefix}/all`, (req, res) => sendAllEntities(res));
 
 app.listen(process.env.PORT || 3000);

@@ -24,6 +24,16 @@ function adaptDatabasePerson(dbPersons: DatabasePerson[]): Person[] {
   });
 }
 
+function adaptPersonToDatabase(dbPersons: Person[]): DatabasePerson[] {
+  return dbPersons.map((dbPerson) => {
+    const { dvgId, ...person } = dbPerson;
+    return {
+      ...person,
+      dvg_id: dvgId,
+    };
+  });
+}
+
 export class PersonEntity implements AbstractEntity<Person> {
   private readonly tableName: string = "person";
 
@@ -38,18 +48,20 @@ export class PersonEntity implements AbstractEntity<Person> {
   }
 
   public async find(id: string): Promise<Person> {
-    return createPoolQuery<Person>(async (client) => {
-      return (
-        await client.query<Person>(
-          `select * from ${this.tableName} where id = ${id}`
-        )
-      ).rows[0];
-    });
+    return adaptDatabasePerson([
+      await createPoolQuery<DatabasePerson>(async (client) => {
+        return (
+          await client.query<DatabasePerson>(
+            `select * from ${this.tableName} where id = ${id}`
+          )
+        ).rows[0];
+      }),
+    ])[0];
   }
 
   public async insert(person: Person): Promise<void> {
     return createPoolQuery<void>(async (client) => {
-      const { id, ...idLessPerson } = person;
+      const { id, ...idLessPerson } = adaptPersonToDatabase([person])[0];
       await client.query(
         `insert into ${
           this.tableName
