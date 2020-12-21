@@ -24,11 +24,11 @@ function adaptDatabasePerson(dbPersons: DatabasePerson[]): Person[] {
   });
 }
 
-function adaptPersonToDatabase(dbPersons: Person[]): DatabasePerson[] {
-  return dbPersons.map((dbPerson) => {
-    const { dvgId, ...person } = dbPerson;
+function adaptPersonToDatabase(persons: Person[]): DatabasePerson[] {
+  return persons.map((person) => {
+    const { dvgId, ...dbPerson } = person;
     return {
-      ...person,
+      ...dbPerson,
       dvg_id: dvgId,
     };
   });

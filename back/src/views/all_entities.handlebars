@@ -33,3 +33,20 @@
     </tr>
     {{/each}}
 </table>
+
+
+<table style="width:50%">
+    <h2>Kreisverband</h2>
+    <tr>
+        <th>Id</th>
+        <th>name</th>
+        <th>landesverband</th>
+    </tr>
+    {{#each this.data.kreisverband}}
+    <tr>
+        <td align="center">{{this.id}}</td>
+        <td align="center">{{this.name}}</td>
+        <td align="center">{{this.landesverbandId}}</td>
+    </tr>
+    {{/each}}
+</table>

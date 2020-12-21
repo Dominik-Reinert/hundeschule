@@ -34,6 +34,9 @@ app.get(`${debugPathPrefix}/person`, (req, res) => sendAllPerson(res));
 app.get(`${debugPathPrefix}/landesverband`, (req, res) =>
   sendAllLandesverband(res)
 );
+app.get(`${debugPathPrefix}/kreisverband`, (req, res) =>
+  sendAllLandesverband(res)
+);
 app.get(`${debugPathPrefix}/all`, (req, res) => sendAllEntities(res));
 
 app.listen(process.env.PORT || 3000);
