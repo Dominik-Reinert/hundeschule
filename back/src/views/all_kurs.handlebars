@@ -1,0 +1,15 @@
+<table style="width:50%">
+    <h2>Kurs</h2>
+    <tr>
+        <th>Id</th>
+        <th>Leiter</th>
+        <th>Beginn</th>
+    </tr>
+    {{#each this.data.kurs}}
+    <tr>
+        <td align="center">{{this.id}}</td>
+        <td align="center">{{this.leiterId}}</td>
+        <td align="center">{{this.beginn}}</td>
+    </tr>
+    {{/each}}
+</table>
