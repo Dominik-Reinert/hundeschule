@@ -1,0 +1,17 @@
+<table style="width:50%">
+    <h2>Prüfung</h2>
+    <tr>
+        <th>Id</th>
+        <th>Prüfer</th>
+        <th>Kurs</th>
+        <th>Date</th>
+    </tr>
+    {{#each this.data.pruefung}}
+    <tr>
+        <td align="center">{{this.id}}</td>
+        <td align="center">{{this.prueferId}}</td>
+        <td align="center">{{this.kursId}}</td>
+        <td align="center">{{this.date}}</td>
+    </tr>
+    {{/each}}
+</table>
