@@ -2,7 +2,7 @@ import { createPoolQuery } from "../../db/src/run_on_pool";
 import { AbstractEntity } from "./abstract_entity";
 
 export interface Kreisverband {
-  id: string;
+  id: number;
   name: string;
   landesverbandId: number;
 }
@@ -50,7 +50,7 @@ export class KreisverbandEntity implements AbstractEntity<Kreisverband> {
     );
   }
 
-  public async find(id: string): Promise<Kreisverband> {
+  public async find(id: number): Promise<Kreisverband> {
     return adaptDatabaseKreisverband([
       await createPoolQuery<DatabaseKreisverband>(async (client) => {
         return (

@@ -2,8 +2,8 @@ import { createPoolQuery } from "../../db/src/run_on_pool";
 import { AbstractEntity } from "./abstract_entity";
 
 export interface Person {
-  id: string;
-  dvgId: string;
+  id: number;
+  dvgId: number;
   name: string;
   vorname: string;
   addresse: string;
@@ -11,7 +11,7 @@ export interface Person {
 }
 
 interface DatabasePerson extends Omit<Person, "dvgId"> {
-  dvg_id: string;
+  dvg_id: number;
 }
 
 function adaptDatabasePerson(dbPersons: DatabasePerson[]): Person[] {
@@ -47,7 +47,7 @@ export class PersonEntity implements AbstractEntity<Person> {
     );
   }
 
-  public async find(id: string): Promise<Person> {
+  public async find(id: number): Promise<Person> {
     return adaptDatabasePerson([
       await createPoolQuery<DatabasePerson>(async (client) => {
         return (

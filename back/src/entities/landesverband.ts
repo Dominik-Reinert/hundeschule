@@ -2,22 +2,22 @@ import { createPoolQuery } from "../../db/src/run_on_pool";
 import { AbstractEntity } from "./abstract_entity";
 
 export interface Landesverband {
-  id: string;
+  id: number;
   name: string;
 }
 
 interface DatabaseLandesverband extends Landesverband {}
 
 function adaptDatabaseLandesverband(
-  dbLandesverbands: DatabaseLandesverband[]
+  dbLandesverbande: DatabaseLandesverband[]
 ): Landesverband[] {
-  return dbLandesverbands;
+  return dbLandesverbande;
 }
 
 function adaptLandesverbandToDatabase(
-  dbLandesverbands: Landesverband[]
+  landesverbande: Landesverband[]
 ): DatabaseLandesverband[] {
-  return dbLandesverbands;
+  return landesverbande;
 }
 
 export class LandesverbandEntity implements AbstractEntity<Landesverband> {
@@ -35,7 +35,7 @@ export class LandesverbandEntity implements AbstractEntity<Landesverband> {
     );
   }
 
-  public async find(id: string): Promise<Landesverband> {
+  public async find(id: number): Promise<Landesverband> {
     return adaptDatabaseLandesverband([
       await createPoolQuery<DatabaseLandesverband>(async (client) => {
         return (

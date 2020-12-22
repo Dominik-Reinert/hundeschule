@@ -1,8 +1,8 @@
 interface Identifiable {
-  id: string;
+  id: number;
 }
 
 export interface AbstractEntity<T extends Identifiable> {
-  find(id: string): Promise<T>;
+  find(id: number): Promise<T>;
   insert(entity: T): Promise<void>;
 }
