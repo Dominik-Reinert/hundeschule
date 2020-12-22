@@ -8,6 +8,7 @@ import path from "path";
 import { debugPathPrefix } from "./debug_endpoints/debug_path_prefix";
 import { sendAllEntities } from "./debug_endpoints/end_d_all_entities";
 import { sendAllKurs } from "./debug_endpoints/end_d_all_kurs";
+import { sendAllKursTeilnehmer } from "./debug_endpoints/end_d_all_kurs_teilnehmer";
 import { sendAllLandesverband } from "./debug_endpoints/end_d_all_landesverband";
 import { sendAllPerson } from "./debug_endpoints/end_d_all_person";
 import { sendAllPruefung } from "./debug_endpoints/end_d_all_pruefung";
@@ -43,6 +44,7 @@ app.get(`${debugPathPrefix}/kreisverband`, (req, res) =>
 app.get(`${debugPathPrefix}/verein`, (req, res) => sendAllVerein(res));
 app.get(`${debugPathPrefix}/kurs`, (req, res) => sendAllKurs(res));
 app.get(`${debugPathPrefix}/pruefung`, (req, res) => sendAllPruefung(res));
+app.get(`${debugPathPrefix}/kurs_teilnehmer`, (req, res) => sendAllKursTeilnehmer(res));
 app.get(`${debugPathPrefix}/all`, (req, res) => sendAllEntities(res));
 
 app.listen(process.env.PORT || 3000);

@@ -105,3 +105,18 @@
     </tr>
     {{/each}}
 </table>
+
+
+<table style="width:50%">
+    <h2>Kursteilnehmer</h2>
+    <tr>
+        <th>kurs</th>
+        <th>teilnehmer</th>
+    </tr>
+    {{#each this.data.kursTeilnehmer}}
+    <tr>
+        <td align="center">{{this.kursId}}</td>
+        <td align="center">{{this.teilnehmerId}}</td>
+    </tr>
+    {{/each}}
+</table>

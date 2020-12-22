@@ -1,6 +1,10 @@
 import { Response } from "express";
 import { Kreisverband, KreisverbandEntity } from "../entities/kreisverband";
 import { Kurs, KursEntity } from "../entities/kurs";
+import {
+  KursTeilnehmer,
+  KursTeilnehmerEntity,
+} from "../entities/kurs_teilnehmer";
 import { Landesverband, LandesverbandEntity } from "../entities/landesverband";
 import { Person, PersonEntity } from "../entities/person";
 import { Pruefung, PruefungEntity } from "../entities/pruefung";
@@ -13,6 +17,7 @@ export async function sendAllEntities(res: Response<any>): Promise<any> {
   const allVerein: Verein[] = await new VereinEntity().findAll();
   const allKurs: Kurs[] = await new KursEntity().findAll();
   const allPruefung: Pruefung[] = await new PruefungEntity().findAll();
+  const allKursTeilnehmer: KursTeilnehmer[] = await new KursTeilnehmerEntity().findAll();
   res.render("all_entities", {
     data: {
       person: allPerson,
@@ -21,6 +26,7 @@ export async function sendAllEntities(res: Response<any>): Promise<any> {
       verein: allVerein,
       kurs: allKurs,
       pruefung: allPruefung,
+      kursTeilnehmer: allKursTeilnehmer,
     },
   });
 }

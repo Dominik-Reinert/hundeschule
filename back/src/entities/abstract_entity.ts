@@ -1,5 +1,5 @@
 interface Identifiable {
-  id: number;
+  id?: number;
 }
 
 export interface AbstractEntity<T extends Identifiable> {
