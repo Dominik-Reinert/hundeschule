@@ -1,5 +1,5 @@
 import { createPoolQuery } from "../../db/src/run_on_pool";
-import { AbstractEntity } from "./abstract_entity";
+import { Entity } from "./entity";
 
 export interface Kurs {
   id: number;
@@ -31,7 +31,7 @@ function adaptKursToDatabase(kurse: Kurs[]): DatabaseKurs[] {
   });
 }
 
-export class KursEntity implements AbstractEntity<Kurs> {
+export class KursEntity implements Entity<Kurs> {
   private readonly tableName: string = "Kurs";
 
   public async findAll(): Promise<Kurs[]> {
@@ -56,14 +56,20 @@ export class KursEntity implements AbstractEntity<Kurs> {
     ])[0];
   }
 
-  public async insert(Kurs: Kurs): Promise<void> {
-    return createPoolQuery<void>(async (client) => {
+  public async insert(Kurs: Kurs): Promise<number> {
+    return createPoolQuery<number>(async (client) => {
       const { id, ...idLessKurs } = adaptKursToDatabase([Kurs])[0];
-      await client.query(
-        `insert into ${this.tableName} (name) values (${Object.values(
-          idLessKurs
-        ).join(", ")})`
-      );
+      return (
+        await client.query(
+          `insert into ${this.tableName} (name) values (${Object.values(
+            idLessKurs
+          ).join(", ")}) returning id;`
+        )
+      ).rows[0];
     });
+  }
+
+  public getTablename(): string {
+    return this.tableName;
   }
 }

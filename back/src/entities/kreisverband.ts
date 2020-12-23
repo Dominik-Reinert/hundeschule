@@ -1,5 +1,5 @@
 import { createPoolQuery } from "../../db/src/run_on_pool";
-import { AbstractEntity } from "./abstract_entity";
+import { Entity } from "./entity";
 
 export interface Kreisverband {
   id: number;
@@ -35,7 +35,7 @@ function adaptKreisverbandToDatabase(
   });
 }
 
-export class KreisverbandEntity implements AbstractEntity<Kreisverband> {
+export class KreisverbandEntity implements Entity<Kreisverband> {
   private readonly tableName: string = "Kreisverband";
 
   public async findAll(): Promise<Kreisverband[]> {
@@ -62,16 +62,22 @@ export class KreisverbandEntity implements AbstractEntity<Kreisverband> {
     ])[0];
   }
 
-  public async insert(Kreisverband: Kreisverband): Promise<void> {
-    return createPoolQuery<void>(async (client) => {
+  public async insert(Kreisverband: Kreisverband): Promise<number> {
+    return createPoolQuery<number>(async (client) => {
       const { id, ...idLessKreisverband } = adaptKreisverbandToDatabase([
         Kreisverband,
       ])[0];
-      await client.query(
-        `insert into ${this.tableName} (name) values (${Object.values(
-          idLessKreisverband
-        ).join(", ")})`
-      );
+      return (
+        await client.query(
+          `insert into ${this.tableName} (name) values (${Object.values(
+            idLessKreisverband
+          ).join(", ")}) returning id`
+        )
+      ).rows[0];
     });
+  }
+
+  public getTablename(): string {
+    return this.tableName;
   }
 }

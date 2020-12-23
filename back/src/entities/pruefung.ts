@@ -1,5 +1,5 @@
 import { createPoolQuery } from "../../db/src/run_on_pool";
-import { AbstractEntity } from "./abstract_entity";
+import { Entity } from "./entity";
 
 export interface Pruefung {
   id: number;
@@ -35,7 +35,7 @@ function adaptPruefungToDatabase(pruefunge: Pruefung[]): DatabasePruefung[] {
   });
 }
 
-export class PruefungEntity implements AbstractEntity<Pruefung> {
+export class PruefungEntity implements Entity<Pruefung> {
   private readonly tableName: string = "Pruefung";
 
   public async findAll(): Promise<Pruefung[]> {
@@ -55,21 +55,27 @@ export class PruefungEntity implements AbstractEntity<Pruefung> {
       await createPoolQuery<DatabasePruefung>(async (client) => {
         return (
           await client.query<DatabasePruefung>(
-            `select * from ${this.tableName} where id = ${id}`
+            `select * from ${this.tableName} where id = ${id};`
           )
         ).rows[0];
       }),
     ])[0];
   }
 
-  public async insert(Pruefung: Pruefung): Promise<void> {
-    return createPoolQuery<void>(async (client) => {
+  public async insert(Pruefung: Pruefung): Promise<number> {
+    return createPoolQuery<number>(async (client) => {
       const { id, ...idLessPruefung } = adaptPruefungToDatabase([Pruefung])[0];
-      await client.query(
-        `insert into ${this.tableName} (name) values (${Object.values(
-          idLessPruefung
-        ).join(", ")})`
-      );
+      return (
+        await client.query(
+          `insert into ${this.tableName} (name) values (${Object.values(
+            idLessPruefung
+          ).join(", ")}) returning id;`
+        )
+      ).rows[0];
     });
+  }
+
+  public getTablename(): string {
+    return this.tableName;
   }
 }

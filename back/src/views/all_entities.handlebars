@@ -21,6 +21,23 @@
 </table>
 
 <table style="width:50%">
+    <h2>App user</h2>
+    <tr>
+        <th>person</th>
+        <th>passwd hash</th>
+        <th>admin</th>
+    </tr>
+    {{#each this.data.appUser}}
+    <tr>
+        <td align="center">{{this.personId}}</td>
+        <td align="center">{{this.passwordHash}}</td>
+        <td align="center">{{this.isAdmin}}</td>
+    </tr>
+    {{/each}}
+</table>
+
+
+<table style="width:50%">
     <h2>Landesverband</h2>
     <tr>
         <th>Id</th>

@@ -32,6 +32,10 @@ export async function createTables(): Promise<void> {
       resolve(__dirname, "../src/create_table.07.kurs_teilnehmer.sql"),
       "utf-8"
     ),
+    await readFileSync(
+      resolve(__dirname, "../src/create_table.08.app_user.sql"),
+      "utf-8"
+    ),
   ]);
   await createPoolTransaction(async (client) => {
     await Promise.all(createTableQueries.map((query) => client.query(query)));

@@ -1,5 +1,5 @@
 import { createPoolQuery } from "../../db/src/run_on_pool";
-import { AbstractEntity } from "./abstract_entity";
+import { Entity } from "./entity";
 
 export interface Verein {
   id: number;
@@ -36,7 +36,7 @@ function adaptVereinToDatabase(vereine: Verein[]): DatabaseVerein[] {
   });
 }
 
-export class VereinEntity implements AbstractEntity<Verein> {
+export class VereinEntity implements Entity<Verein> {
   private readonly tableName: string = "Verein";
 
   public async findAll(): Promise<Verein[]> {
@@ -61,14 +61,20 @@ export class VereinEntity implements AbstractEntity<Verein> {
     ])[0];
   }
 
-  public async insert(Verein: Verein): Promise<void> {
-    return createPoolQuery<void>(async (client) => {
+  public async insert(Verein: Verein): Promise<number> {
+    return createPoolQuery<number>(async (client) => {
       const { id, ...idLessVerein } = adaptVereinToDatabase([Verein])[0];
-      await client.query(
-        `insert into ${this.tableName} (name) values (${Object.values(
-          idLessVerein
-        ).join(", ")})`
-      );
+      return (
+        await client.query(
+          `insert into ${this.tableName} (name) values (${Object.values(
+            idLessVerein
+          ).join(", ")})`
+        )
+      ).rows[0];
     });
+  }
+
+  public getTablename(): string {
+    return this.tableName;
   }
 }

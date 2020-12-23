@@ -8,6 +8,7 @@ import "express-async-errors";
 import exphbs from "express-handlebars";
 import path from "path";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
+import { AppUserPerson, AppUserPersonDto } from "./dto/app_user_person_dto";
 
 export const app = express();
 app.use(cors({ origin: "http://localhost:8080" }));
@@ -43,31 +44,27 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
-const users = [
-  // This user is added to the array to avoid creating a new user on each restart
-  {
-    firstName: "John",
-    lastName: "Doe",
-    email: "johndoe@email.com",
-    // This is the SHA256 hash for value of `password`
-    password: "XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=",
-  },
-];
 const crypto = require("crypto");
 
 const getHashedPassword = (password: string) => {
-  const sha256 = crypto.createHash("sha256");
-  const hash = sha256.update(password).digest("base64");
+  const sha512 = crypto.createHash("sha512");
+  const hash = sha512.update(password).digest("base64");
   return hash;
 };
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const { email, firstName, lastName, password, confirmPassword } = req.body;
+
+  const appUserToPersonDto = new AppUserPersonDto();
+
 
   // Check if the password and confirm password fields match
   if (password === confirmPassword) {
+
+    const appUserWithEmail: AppUserPerson =  await appUserToPersonDto.findByEmail(email);
+
     // Check if user with the same email is also registered
-    if (users.find((user) => user.email === email)) {
+    if (appUserWithEmail !== undefined) {
       res.render("register", {
         message: "User already registered.",
         messageClass: "alert-danger",

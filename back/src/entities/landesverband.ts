@@ -1,5 +1,5 @@
 import { createPoolQuery } from "../../db/src/run_on_pool";
-import { AbstractEntity } from "./abstract_entity";
+import { Entity } from "./entity";
 
 export interface Landesverband {
   id: number;
@@ -20,7 +20,7 @@ function adaptLandesverbandToDatabase(
   return landesverbande;
 }
 
-export class LandesverbandEntity implements AbstractEntity<Landesverband> {
+export class LandesverbandEntity implements Entity<Landesverband> {
   private readonly tableName: string = "Landesverband";
 
   public async findAll(): Promise<Landesverband[]> {
@@ -28,7 +28,7 @@ export class LandesverbandEntity implements AbstractEntity<Landesverband> {
       await createPoolQuery<DatabaseLandesverband[]>(async (client) => {
         return (
           await client.query<DatabaseLandesverband>(
-            `select * from ${this.tableName}`
+            `select * from ${this.tableName};`
           )
         ).rows;
       })
@@ -40,23 +40,29 @@ export class LandesverbandEntity implements AbstractEntity<Landesverband> {
       await createPoolQuery<DatabaseLandesverband>(async (client) => {
         return (
           await client.query<DatabaseLandesverband>(
-            `select * from ${this.tableName} where id = ${id}`
+            `select * from ${this.tableName} where id = ${id};`
           )
         ).rows[0];
       }),
     ])[0];
   }
 
-  public async insert(Landesverband: Landesverband): Promise<void> {
-    return createPoolQuery<void>(async (client) => {
+  public async insert(Landesverband: Landesverband): Promise<number> {
+    return createPoolQuery<number>(async (client) => {
       const { id, ...idLessLandesverband } = adaptLandesverbandToDatabase([
         Landesverband,
       ])[0];
-      await client.query(
-        `insert into ${this.tableName} (name) values (${Object.values(
-          idLessLandesverband
-        ).join(", ")})`
-      );
+      return (
+        await client.query(
+          `insert into ${this.tableName} (name) values (${Object.values(
+            idLessLandesverband
+          ).join(", ")}) returning id;`
+        )
+      ).rows[0];
     });
+  }
+
+  public getTablename(): string {
+    return this.tableName;
   }
 }
