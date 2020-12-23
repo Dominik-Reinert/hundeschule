@@ -2,10 +2,10 @@ import { createPoolQuery } from "../../db/src/run_on_pool";
 import { Entity } from "./entity";
 
 export interface AppUser {
-  id?: never;
   personId: number;
-  isAdmin: boolean;
   passwordHash: string;
+  id?: never;
+  isAdmin?: boolean;
 }
 
 export interface DatabaseAppUser
@@ -40,13 +40,13 @@ function adaptAppUserToDatabase(appusers: AppUser[]): DatabaseAppUser[] {
 }
 
 export class AppUserEntity implements Entity<AppUser> {
-  private readonly tableName: string = "appuser";
+  private readonly tableName: string = "app_user";
 
   public async findAll(): Promise<AppUser[]> {
     return adaptDatabaseAppUser(
       await createPoolQuery<DatabaseAppUser[]>(async (client) => {
         return (
-          await client.query<DatabaseAppUser>(`select * from ${this.tableName}`)
+          await client.query<DatabaseAppUser>(`select * from ${this.tableName};`)
         ).rows;
       })
     );
@@ -57,7 +57,7 @@ export class AppUserEntity implements Entity<AppUser> {
       await createPoolQuery<DatabaseAppUser>(async (client) => {
         return (
           await client.query<DatabaseAppUser>(
-            `select * from ${this.tableName} where id = ${id}`
+            `select * from ${this.tableName} where id = ${id};`
           )
         ).rows[0];
       }),
@@ -69,7 +69,7 @@ export class AppUserEntity implements Entity<AppUser> {
       return (
         (
           await client.query(
-            `select * from ${this.tableName} where person_id = ${id}`
+            `select * from ${this.tableName} where person_id = ${id};`
           )
         ).rowCount === 1
       );
@@ -84,7 +84,7 @@ export class AppUserEntity implements Entity<AppUser> {
           this.tableName
         } (dvg_id, name, vorname, addresse, email) values (${Object.values(
           idLessAppUser
-        ).join(", ")})`
+        ).join(", ")});`
       );
     });
     return;

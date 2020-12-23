@@ -36,7 +36,7 @@ function adaptPruefungToDatabase(pruefunge: Pruefung[]): DatabasePruefung[] {
 }
 
 export class PruefungEntity implements Entity<Pruefung> {
-  private readonly tableName: string = "Pruefung";
+  private readonly tableName: string = "pruefung";
 
   public async findAll(): Promise<Pruefung[]> {
     return adaptDatabasePruefung(

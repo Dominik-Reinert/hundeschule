@@ -21,7 +21,7 @@ function adaptLandesverbandToDatabase(
 }
 
 export class LandesverbandEntity implements Entity<Landesverband> {
-  private readonly tableName: string = "Landesverband";
+  private readonly tableName: string = "landesverband";
 
   public async findAll(): Promise<Landesverband[]> {
     return adaptDatabaseLandesverband(

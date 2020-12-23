@@ -36,7 +36,7 @@ function adaptKreisverbandToDatabase(
 }
 
 export class KreisverbandEntity implements Entity<Kreisverband> {
-  private readonly tableName: string = "Kreisverband";
+  private readonly tableName: string = "kreisverband";
 
   public async findAll(): Promise<Kreisverband[]> {
     return adaptDatabaseKreisverband(

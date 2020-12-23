@@ -9,6 +9,7 @@ import exphbs from "express-handlebars";
 import path from "path";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
 import { AppUserPerson, AppUserPersonDto } from "./dto/app_user_person_dto";
+import { AuthTokenEntity } from "./entities/auth_token";
 
 export const app = express();
 app.use(cors({ origin: "http://localhost:8080" }));
@@ -57,11 +58,11 @@ app.post("/register", async (req, res) => {
 
   const appUserToPersonDto = new AppUserPersonDto();
 
-
   // Check if the password and confirm password fields match
   if (password === confirmPassword) {
-
-    const appUserWithEmail: AppUserPerson =  await appUserToPersonDto.findByEmail(email);
+    const appUserWithEmail: AppUserPerson = await appUserToPersonDto.findByEmail(
+      email
+    );
 
     // Check if user with the same email is also registered
     if (appUserWithEmail !== undefined) {
@@ -73,14 +74,14 @@ app.post("/register", async (req, res) => {
       return;
     }
 
-    const hashedPassword = getHashedPassword(password);
+    const passwordHash = getHashedPassword(password);
 
     // Store user into the database if you are using one
-    users.push({
-      firstName,
-      lastName,
+    appUserToPersonDto.insert({
+      vorname: firstName,
+      name: lastName,
       email,
-      password: hashedPassword,
+      passwordHash,
     });
 
     res.render("login", {
@@ -103,29 +104,18 @@ const generateAuthToken = () => {
   return crypto.randomBytes(30).toString("hex");
 };
 
-// This will hold the users and authToken related to users
-const authTokens: {
-  [key: string]: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-  };
-} = {};
-
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = getHashedPassword(password);
 
-  const user = users.find((u) => {
-    return u.email === email && hashedPassword === u.password;
-  });
-
-  if (user) {
+  const appUser = await new AppUserPersonDto().findByEmail(email);
+  if (appUser !== undefined && appUser.passwordHash === hashedPassword) {
     const authToken = generateAuthToken();
-
-    // Store authentication token
-    authTokens[authToken] = user;
+    const authTokenEntity = new AuthTokenEntity();
+    await authTokenEntity.insert({
+      personId: appUser.id as number,
+      token: authToken,
+    });
 
     // Setting the auth token in cookies
     res.cookie("AuthToken", authToken);

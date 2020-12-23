@@ -37,7 +37,7 @@ function adaptVereinToDatabase(vereine: Verein[]): DatabaseVerein[] {
 }
 
 export class VereinEntity implements Entity<Verein> {
-  private readonly tableName: string = "Verein";
+  private readonly tableName: string = "verein";
 
   public async findAll(): Promise<Verein[]> {
     return adaptDatabaseVerein(

@@ -2,16 +2,16 @@ import { createPoolQuery } from "../../db/src/run_on_pool";
 import { Entity } from "./entity";
 
 export interface Person {
-  id: number;
-  dvgId: number;
   name: string;
   vorname: string;
-  addresse: string;
   email: string;
+  id?: number;
+  dvgId?: number;
+  addresse?: string;
 }
 
 export interface DatabasePerson extends Omit<Person, "dvgId"> {
-  dvg_id: number;
+  dvg_id?: number;
 }
 
 function adaptDatabasePerson(dbPersons: DatabasePerson[]): Person[] {
@@ -62,8 +62,11 @@ export class PersonEntity implements Entity<Person> {
   public async exists(id: number): Promise<boolean> {
     return createPoolQuery<boolean>(async (client) => {
       return (
-        (await client.query(`select * from ${this.tableName} where id = ${id};`))
-          .rowCount === 1
+        (
+          await client.query(
+            `select * from ${this.tableName} where id = ${id};`
+          )
+        ).rowCount === 1
       );
     });
   }

@@ -38,7 +38,7 @@ function adaptKursTeilnehmerToDatabase(
 }
 
 export class KursTeilnehmerEntity implements Entity<KursTeilnehmer> {
-  private readonly tableName: string = "Kurs_Teilnehmer";
+  private readonly tableName: string = "kurs_teilnehmer";
 
   public async findAll(): Promise<KursTeilnehmer[]> {
     return adaptDatabaseKursTeilnehmer(

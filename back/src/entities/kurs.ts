@@ -32,7 +32,7 @@ function adaptKursToDatabase(kurse: Kurs[]): DatabaseKurs[] {
 }
 
 export class KursEntity implements Entity<Kurs> {
-  private readonly tableName: string = "Kurs";
+  private readonly tableName: string = "kurs";
 
   public async findAll(): Promise<Kurs[]> {
     return adaptDatabaseKurs(
