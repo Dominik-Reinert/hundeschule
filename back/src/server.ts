@@ -7,6 +7,7 @@ import express from "express";
 import "express-async-errors";
 import exphbs from "express-handlebars";
 import path from "path";
+import { getSinglePerson } from "../db/src/run_on_pool";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
 import { AppUserPerson, AppUserPersonDto } from "./dto/app_user_person_dto";
 import { AuthTokenEntity } from "./entities/auth_token";
@@ -96,7 +97,8 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", async (req, res) => {
+  console.warn(`Found person: ${JSON.stringify(await getSinglePerson(3))}`);
   res.render("login");
 });
 
