@@ -1,14 +1,9 @@
 import { createPoolQuery } from "../../db/src/run_on_pool";
-import { AppUser, AppUserEntity, DatabaseAppUser } from "../entities/app_user";
-import { DatabasePerson, Person, PersonEntity } from "../entities/person";
+import { AppUserEntity } from "../entities/app_user";
 
-export interface AppUserPerson
-  extends Person,
-    Omit<AppUser, "id" | "personId"> {}
+export type AppUserPerson = any;
 
-interface DatabaseAppUserPerson
-  extends DatabasePerson,
-    Omit<DatabaseAppUser, "id" | "person_id"> {}
+export type DatabaseAppUserPerson = any;
 
 function adaptDatabaseAppUserPersonDto(
   dbAppUserPersonDto: DatabaseAppUserPerson[]
@@ -36,7 +31,7 @@ export class AppUserPersonDto {
     return adaptDatabaseAppUserPersonDto(
       await createPoolQuery<DatabaseAppUserPerson[]>(async (client) => {
         const appUserTableName = new AppUserEntity().getTablename();
-        const personTableName = new PersonEntity().getTablename();
+        const personTableName = "person"; //new PersonEntity().getTablename();
 
         return (
           await client.query<DatabaseAppUserPerson>(
@@ -51,7 +46,7 @@ export class AppUserPersonDto {
     return adaptDatabaseAppUserPersonDto([
       await createPoolQuery<DatabaseAppUserPerson>(async (client) => {
         const appUserTableName = new AppUserEntity().getTablename();
-        const personTableName = new PersonEntity().getTablename();
+        const personTableName = "person"; // new PersonEntity().getTablename();
 
         return (
           await client.query<DatabaseAppUserPerson>(
@@ -77,7 +72,7 @@ export class AppUserPersonDto {
       passwordHash,
       vorname,
     } = appUserToPersonDto;
-    const personEntity = new PersonEntity();
+    const personEntity = undefined as any;
     const appUserEntity = new AppUserEntity();
 
     const personExists: boolean = await personEntity.exists(id);

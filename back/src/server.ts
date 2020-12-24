@@ -7,7 +7,6 @@ import express from "express";
 import "express-async-errors";
 import exphbs from "express-handlebars";
 import path from "path";
-import { getSinglePerson } from "../db/src/run_on_pool";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
 import { AppUserPerson, AppUserPersonDto } from "./dto/app_user_person_dto";
 import { AuthTokenEntity } from "./entities/auth_token";
@@ -83,7 +82,7 @@ app.post("/register", async (req, res) => {
       name: lastName,
       email,
       passwordHash,
-    });
+    } as any);
 
     res.render("login", {
       message: "Registration Complete. Please login to continue.",
@@ -98,7 +97,6 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/login", async (req, res) => {
-  console.warn(`Found person: ${JSON.stringify(await getSinglePerson(3))}`);
   res.render("login");
 });
 
@@ -110,7 +108,7 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = getHashedPassword(password);
 
-  const appUser = await new AppUserPersonDto().findByEmail(email);
+  const appUser: any = await new AppUserPersonDto().findByEmail(email);
   console.info(`found app user: ${JSON.stringify(appUser)}`);
   if (appUser !== undefined && appUser.passwordHash === hashedPassword) {
     const authToken = generateAuthToken();
