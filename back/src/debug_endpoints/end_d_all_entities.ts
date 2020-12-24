@@ -5,13 +5,13 @@ import {
   KursTeilnehmer,
   KursTeilnehmerEntity,
 } from "../entities/kurs_teilnehmer";
-import { Landesverband, LandesverbandEntity } from "../entities/landesverband";
 import { Pruefung, PruefungEntity } from "../entities/pruefung";
 import { Verein, VereinEntity } from "../entities/verein";
+import { Landesverband, LandesverbandDto } from "../table/landesverband_table";
 import { Person, PersonDto } from "../table/person_table";
 
 export async function sendAllEntities(res: Response<any>): Promise<any> {
-  const allLandesverband: Landesverband[] = await new LandesverbandEntity().findAll();
+  const allLandesverband: Landesverband[] = await LandesverbandDto.findAll();
   const allPerson: Person[] = await PersonDto.findAll();
   const allKreisverband: Kreisverband[] = await new KreisverbandEntity().findAll();
   const allVerein: Verein[] = await new VereinEntity().findAll();
