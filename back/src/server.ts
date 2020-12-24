@@ -77,7 +77,7 @@ app.post("/register", async (req, res) => {
     const passwordHash = getHashedPassword(password);
 
     // Store user into the database if you are using one
-    appUserToPersonDto.insert({
+    await appUserToPersonDto.insert({
       vorname: firstName,
       name: lastName,
       email,
@@ -109,6 +109,7 @@ app.post("/login", async (req, res) => {
   const hashedPassword = getHashedPassword(password);
 
   const appUser = await new AppUserPersonDto().findByEmail(email);
+  console.info(`found app user: ${JSON.stringify(appUser)}`);
   if (appUser !== undefined && appUser.passwordHash === hashedPassword) {
     const authToken = generateAuthToken();
     const authTokenEntity = new AuthTokenEntity();

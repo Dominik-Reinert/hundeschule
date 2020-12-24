@@ -13,20 +13,22 @@ interface DatabaseAppUserPerson
 function adaptDatabaseAppUserPersonDto(
   dbAppUserPersonDto: DatabaseAppUserPerson[]
 ): AppUserPerson[] {
-  return dbAppUserPersonDto.map((dbAppUserPersonDto) => {
-    const {
-      dvg_id,
-      is_admin,
-      password,
-      ...appUserPersonDto
-    } = dbAppUserPersonDto;
-    return {
-      ...appUserPersonDto,
-      dvgId: dvg_id,
-      isAdmin: is_admin === "t",
-      passwordHash: password,
-    };
-  });
+  return dbAppUserPersonDto
+    .filter((e) => e)
+    .map((dbAppUserPersonDto) => {
+      const {
+        dvg_id,
+        is_admin,
+        password,
+        ...appUserPersonDto
+      } = dbAppUserPersonDto;
+      return {
+        ...appUserPersonDto,
+        dvgId: dvg_id,
+        isAdmin: is_admin === "t",
+        passwordHash: password,
+      };
+    });
 }
 
 export class AppUserPersonDto {
@@ -53,7 +55,11 @@ export class AppUserPersonDto {
 
         return (
           await client.query<DatabaseAppUserPerson>(
-            `select * from ${appUserTableName} join ${personTableName} on ${appUserTableName}.person_id=${personTableName}.id where ${personTableName}.email = ${email};`
+            `select * from ${appUserTableName} 
+              join ${personTableName} on ${appUserTableName}.person_id=${personTableName}.id 
+              where exists (
+                select * from ${personTableName} p where p.email = '${email}'
+              );`
           )
         ).rows[0];
       }),
@@ -73,7 +79,11 @@ export class AppUserPersonDto {
     } = appUserToPersonDto;
     const personEntity = new PersonEntity();
     const appUserEntity = new AppUserEntity();
-    if (id !== -1 && !(await personEntity.exists(id))) {
+
+    const personExists: boolean = await personEntity.exists(id);
+    const appUserExists: boolean = await appUserEntity.exists(id);
+
+    if (id === -1 && !personExists) {
       await personEntity.insert({
         id,
         name,
@@ -84,7 +94,7 @@ export class AppUserPersonDto {
       });
     }
 
-    if (!(await appUserEntity.exists(id))) {
+    if (!appUserExists) {
       await appUserEntity.insert({ isAdmin, passwordHash, personId: id });
     }
   }

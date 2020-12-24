@@ -64,9 +64,9 @@ export class PersonEntity implements Entity<Person> {
       return (
         (
           await client.query(
-            `select * from ${this.tableName} where id = ${id};`
+            `select exists( select 1 from ${this.tableName} where id = ${id});`
           )
-        ).rowCount === 1
+        ).rows[0] === "TRUE"
       );
     });
   }
@@ -74,13 +74,19 @@ export class PersonEntity implements Entity<Person> {
   public async insert(person: Person): Promise<Person["id"]> {
     return createPoolQuery<Person["id"]>(async (client) => {
       const { id, ...idLessPerson } = adaptPersonToDatabase([person])[0];
+      const keys: string[] = [];
+      const values: string[] = [];
+      Object.entries(idLessPerson)
+        .filter(([key, value]) => value !== undefined)
+        .forEach(([key, value]) => {
+          keys.push(key);
+          values.push(value);
+        });
       return (
         await client.query(
-          `insert into ${
-            this.tableName
-          } (dvg_id, name, vorname, addresse, email) values (${Object.values(
-            idLessPerson
-          ).join(", ")} returning id);`
+          `insert into ${this.tableName} (${keys.join(
+            ", "
+          )}) values (${values.map((e) => `'${e}'`).join(", ")}) returning id;`
         )
       ).rows[0];
     });
