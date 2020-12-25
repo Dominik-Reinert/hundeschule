@@ -5,6 +5,12 @@ import { PgPoolQueryRunner } from "ts-sql-query/queryRunners/PgPoolQueryRunner";
 import { Table } from "ts-sql-query/Table";
 import { dbPool } from "../../db/src/run_on_pool";
 import { DBConnection, DbInsertSets, MyDb } from "./db";
+import {
+  Person,
+  PersonDto,
+  PersonTable,
+  personTableInstance,
+} from "./person_table";
 
 class AppUserTable extends Table<MyDb> {
   personId = this.column("person_id", "int");
@@ -15,7 +21,8 @@ class AppUserTable extends Table<MyDb> {
   }
 }
 
-const appuserTableInstance = new AppUserTable();
+export const appuserTableInstance = new AppUserTable();
+export type AppUserJoined = AppUser & Person;
 
 export interface AppUser {
   personId: number;
@@ -27,6 +34,22 @@ const selectAppUser: SelectValues<MyDb & PostgreSql, AppUserTable, AppUser> = {
   personId: appuserTableInstance.personId,
   password: appuserTableInstance.password,
   isAdmin: appuserTableInstance.isAdmin,
+};
+
+const selectAppUserJoined: SelectValues<
+  MyDb & PostgreSql,
+  AppUserTable | PersonTable,
+  AppUser & Person
+> = {
+  id: personTableInstance.id,
+  personId: personTableInstance.id,
+  password: appuserTableInstance.password,
+  isAdmin: appuserTableInstance.isAdmin,
+  email: personTableInstance.email,
+  name: personTableInstance.name,
+  vorname: personTableInstance.vorname,
+  adresse: personTableInstance.adresse,
+  dvgId: personTableInstance.dvgId,
 };
 
 function adaptAppUserToDb(appuser: AppUser): DbInsertSets<AppUserTable> {
@@ -42,12 +65,12 @@ export class AppUserDto {
     return new DBConnection(new PgPoolQueryRunner(dbPool));
   }
 
-  public static findByPersonId(id: number): Promise<AppUser> {
+  public static findByPersonId(id: number): Promise<AppUser | null> {
     return this.getConnection()
       .selectFrom(appuserTableInstance)
       .where(appuserTableInstance.personId.equals(asInt(id)))
       .select(selectAppUser)
-      .executeSelectOne();
+      .executeSelectNoneOrOne();
   }
 
   public static findAll(): Promise<AppUser[]> {
@@ -57,10 +80,68 @@ export class AppUserDto {
       .executeSelectMany();
   }
 
-  public static async insert(appuser: AppUser): Promise<void> {
-    await this.getConnection()
+  public static findAllJoined(): Promise<(AppUser & Person)[]> {
+    return this.getConnection()
+      .selectFrom(appuserTableInstance)
+      .innerJoin(personTableInstance)
+      .on(appuserTableInstance.personId.equals(personTableInstance.id))
+      .select(selectAppUserJoined)
+      .executeSelectMany();
+  }
+
+  public static findByEmailJoined(
+    email: string
+  ): Promise<AppUserJoined | null> {
+    return this.getConnection()
+      .selectFrom(appuserTableInstance)
+      .innerJoin(personTableInstance)
+      .on(appuserTableInstance.personId.equals(personTableInstance.id))
+      .where(personTableInstance.email.equals(email))
+      .select(selectAppUserJoined)
+      .executeSelectNoneOrOne();
+  }
+
+  public static async insert(
+    appuser: AppUser,
+    connection: DBConnection = this.getConnection()
+  ): Promise<void> {
+    await connection
       .insertInto(appuserTableInstance)
       .values(adaptAppUserToDb(appuser))
       .executeInsert();
+  }
+
+  public static async insertJoined(
+    appuserJoined: Omit<AppUserJoined, "personId">
+  ): Promise<void> {
+    const connection = this.getConnection();
+    try {
+      await connection.beginTransaction();
+      const personId = await PersonDto.insert(
+        {
+          name: appuserJoined.name,
+          vorname: appuserJoined.vorname,
+          email: appuserJoined.email,
+          adresse: appuserJoined.adresse,
+          dvgId: appuserJoined.dvgId,
+        },
+        connection
+      );
+      if (!personId) {
+        throw new Error("Could not insert new person!");
+      }
+      await AppUserDto.insert(
+        {
+          personId,
+          isAdmin: appuserJoined.isAdmin,
+          password: appuserJoined.password,
+        },
+        connection
+      );
+      await connection.commit();
+    } catch (e) {
+      await connection.rollback();
+      throw e;
+    }
   }
 }

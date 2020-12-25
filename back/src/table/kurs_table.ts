@@ -15,7 +15,7 @@ class KursTable extends Table<MyDb> {
   }
 }
 
-const kursTableInstance = new KursTable();
+export const kursTableInstance = new KursTable();
 
 export interface Kurs {
   id: number;

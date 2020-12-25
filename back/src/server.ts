@@ -9,7 +9,7 @@ import exphbs from "express-handlebars";
 import path from "path";
 import { createLocalDate } from "ts-extended-types";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
-import { AppUserPerson, AppUserPersonDto } from "./dto/app_user_person_dto";
+import { AppUserDto, AppUserJoined } from "./table/app_user_table";
 import { AuthTokenDto } from "./table/auth_token_table";
 
 export const app = express();
@@ -57,16 +57,14 @@ const getHashedPassword = (password: string) => {
 app.post("/register", async (req, res) => {
   const { email, firstName, lastName, password, confirmPassword } = req.body;
 
-  const appUserToPersonDto = new AppUserPersonDto();
-
   // Check if the password and confirm password fields match
-  if (password === confirmPassword) {
-    const appUserWithEmail: AppUserPerson = await appUserToPersonDto.findByEmail(
+  if (password === confirmPassword && email) {
+    const appUserWithEmail: AppUserJoined | null = await AppUserDto.findByEmailJoined(
       email
     );
 
     // Check if user with the same email is also registered
-    if (appUserWithEmail !== undefined) {
+    if (appUserWithEmail !== null) {
       res.render("register", {
         message: "User already registered.",
         messageClass: "alert-danger",
@@ -77,13 +75,13 @@ app.post("/register", async (req, res) => {
 
     const passwordHash = getHashedPassword(password);
 
-    // Store user into the database if you are using one
-    await appUserToPersonDto.insert({
+    await AppUserDto.insertJoined({
       vorname: firstName,
       name: lastName,
       email,
-      passwordHash,
-    } as any);
+      isAdmin: false,
+      password: passwordHash,
+    });
 
     res.render("login", {
       message: "Registration Complete. Please login to continue.",
@@ -109,9 +107,11 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = getHashedPassword(password);
 
-  const appUser: any = await new AppUserPersonDto().findByEmail(email);
+  const appUser: AppUserJoined | null = await AppUserDto.findByEmailJoined(
+    email
+  );
   console.info(`found app user: ${JSON.stringify(appUser)}`);
-  if (appUser !== undefined && appUser.passwordHash === hashedPassword) {
+  if (appUser !== null && appUser.password === hashedPassword) {
     const authToken = generateAuthToken();
     await AuthTokenDto.insert({
       personId: appUser.id as number,

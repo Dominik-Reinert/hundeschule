@@ -16,7 +16,7 @@ class KreisverbandTable extends Table<MyDb> {
   }
 }
 
-const kreisverbandTableInstance = new KreisverbandTable();
+export const kreisverbandTableInstance = new KreisverbandTable();
 
 export interface Kreisverband {
   id: number;

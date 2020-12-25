@@ -15,7 +15,7 @@ class KursteilnehmerTable extends Table<MyDb> {
   }
 }
 
-const kursteilnehmerTableInstance = new KursteilnehmerTable();
+export const kursteilnehmerTableInstance = new KursteilnehmerTable();
 
 export interface Kursteilnehmer {
   id: number;

@@ -16,7 +16,7 @@ class VereinTable extends Table<MyDb> {
   }
 }
 
-const vereinTableInstance = new VereinTable();
+export const vereinTableInstance = new VereinTable();
 
 export interface Verein {
   id: number;

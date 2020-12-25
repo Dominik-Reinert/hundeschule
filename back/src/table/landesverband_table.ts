@@ -14,7 +14,7 @@ class LandesverbandTable extends Table<MyDb> {
   }
 }
 
-const landesverbandTableInstance = new LandesverbandTable();
+export const landesverbandTableInstance = new LandesverbandTable();
 
 export interface Landesverband {
   id: number;

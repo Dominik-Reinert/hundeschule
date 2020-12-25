@@ -16,7 +16,7 @@ class PruefungTable extends Table<MyDb> {
   }
 }
 
-const pruefungTableInstance = new PruefungTable();
+export const pruefungTableInstance = new PruefungTable();
 
 export interface Pruefung {
   id: number;

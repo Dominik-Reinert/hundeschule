@@ -15,7 +15,7 @@ class AuthTokenTable extends Table<MyDb> {
   }
 }
 
-const authtokenTableInstance = new AuthTokenTable();
+export const authtokenTableInstance = new AuthTokenTable();
 
 export interface AuthToken {
   personId: number;
