@@ -1,5 +1,4 @@
 import { createPoolQuery } from "../../db/src/run_on_pool";
-import { AppUserEntity } from "../entities/app_user";
 
 export type AppUserPerson = any;
 

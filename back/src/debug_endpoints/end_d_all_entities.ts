@@ -1,9 +1,9 @@
 import { Response } from "express";
-import {
-  KursTeilnehmer,
-  KursTeilnehmerEntity,
-} from "../entities/kurs_teilnehmer";
 import { Kreisverband, KreisverbandDto } from "../table/kreisverband_table";
+import {
+  Kursteilnehmer,
+  KursteilnehmerDto,
+} from "../table/kursteilnehmer_table";
 import { Kurs, KursDto } from "../table/kurs_table";
 import { Landesverband, LandesverbandDto } from "../table/landesverband_table";
 import { Person, PersonDto } from "../table/person_table";
@@ -17,7 +17,7 @@ export async function sendAllEntities(res: Response<any>): Promise<any> {
   const allVerein: Verein[] = await VereinDto.findAll();
   const allKurs: Kurs[] = await KursDto.findAll();
   const allPruefung: Pruefung[] = await PruefungDto.findAll();
-  const allKursTeilnehmer: KursTeilnehmer[] = await new KursTeilnehmerEntity().findAll();
+  const allKursTeilnehmer: Kursteilnehmer[] = await KursteilnehmerDto.findAll();
   res.render("all_entities", {
     data: {
       person: allPerson,

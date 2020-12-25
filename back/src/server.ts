@@ -7,9 +7,10 @@ import express from "express";
 import "express-async-errors";
 import exphbs from "express-handlebars";
 import path from "path";
+import { createLocalDate } from "ts-extended-types";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
 import { AppUserPerson, AppUserPersonDto } from "./dto/app_user_person_dto";
-import { AuthTokenEntity } from "./entities/auth_token";
+import { AuthTokenDto } from "./table/auth_token_table";
 
 export const app = express();
 app.use(cors({ origin: "http://localhost:8080" }));
@@ -112,10 +113,10 @@ app.post("/login", async (req, res) => {
   console.info(`found app user: ${JSON.stringify(appUser)}`);
   if (appUser !== undefined && appUser.passwordHash === hashedPassword) {
     const authToken = generateAuthToken();
-    const authTokenEntity = new AuthTokenEntity();
-    await authTokenEntity.insert({
+    await AuthTokenDto.insert({
       personId: appUser.id as number,
       token: authToken,
+      lastUsed: createLocalDate(new Date()),
     });
 
     // Setting the auth token in cookies

@@ -1,9 +1,14 @@
 import { Response } from "express";
-import { KursTeilnehmer, KursTeilnehmerEntity } from "../entities/kurs_teilnehmer";
+import {
+  Kursteilnehmer,
+  KursteilnehmerDto,
+} from "../table/kursteilnehmer_table";
 
 export async function sendAllKursTeilnehmer(res: Response<any>): Promise<any> {
-  const allKursTeilnehmer: KursTeilnehmer[] = await new KursTeilnehmerEntity().findAll();
-  console.info(`Found kursteilnehmer in database: ${JSON.stringify(allKursTeilnehmer)}`);
+  const allKursTeilnehmer: Kursteilnehmer[] = await KursteilnehmerDto.findAll();
+  console.info(
+    `Found kursteilnehmer in database: ${JSON.stringify(allKursTeilnehmer)}`
+  );
   res.render("all_kurs_teilnehmer", {
     data: {
       kursteilnehmer: allKursTeilnehmer,
