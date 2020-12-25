@@ -11,7 +11,7 @@ class AuthTokenTable extends Table<MyDb> {
   token = this.column("token", "string");
   lastUsed = this.column("last_used", "localDate");
   constructor() {
-    super("authtoken");
+    super("auth_token");
   }
 }
 
