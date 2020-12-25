@@ -45,7 +45,6 @@ export class LandesverbandDto {
   public static findAll(): Promise<Landesverband[]> {
     return this.getConnection()
       .selectFrom(landesverbandTableInstance)
-      .where(landesverbandTableInstance.id.isNotNull())
       .select(selectLandesverband)
       .executeSelectMany();
   }

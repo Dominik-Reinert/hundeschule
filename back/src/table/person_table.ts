@@ -53,7 +53,6 @@ export class PersonDto {
   public static findAll(): Promise<Person[]> {
     return this.getConnection()
       .selectFrom(personTableInstance)
-      .where(personTableInstance.id.isNotNull())
       .select(selectPerson)
       .executeSelectMany();
   }

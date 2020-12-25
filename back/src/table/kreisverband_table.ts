@@ -49,7 +49,6 @@ export class KreisverbandDto {
   public static findAll(): Promise<Kreisverband[]> {
     return this.getConnection()
       .selectFrom(kreisverbandTableInstance)
-      .where(kreisverbandTableInstance.id.isNotNull())
       .select(selectKreisverband)
       .executeSelectMany();
   }
