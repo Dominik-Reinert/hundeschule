@@ -4,7 +4,7 @@ import { FormComponent } from "../form/form_component";
 import { useFormState, VALIDATION_TYPE } from "../hooks/use_form_state";
 import { DescribedTextInput } from "../text_input/described_text_input";
 
-export const LandingPage = (props) => {
+export const LoginPage = (props) => {
   const [email, setEmail, validateEmail, emailFormState] = useFormState(
     "",
     VALIDATION_TYPE.EMAIL,

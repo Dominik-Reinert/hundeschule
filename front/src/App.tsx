@@ -1,11 +1,11 @@
 import React from "react";
-import { LandingPage } from "./pages/landing_page";
+import { LoginPage } from "./pages/login_page";
 import { PageBase } from "./page_base/page_base";
 
 function App() {
   return (
     <PageBase>
-      <LandingPage />
+      <LoginPage />
     </PageBase>
   );
 }
