@@ -24,6 +24,7 @@ export const LoginPage = (props) => {
     (evt) => {
       evt.preventDefault();
       if ([validatePassword(), validateEmail()].every((value) => value)) {
+        fetch({"http://localhost:3000/login"})
         alert("submitting....");
       }
     },
