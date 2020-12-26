@@ -2,38 +2,33 @@ import { css } from "@emotion/core";
 import * as React from "react";
 import { usePageBaseTheme } from "../hooks/use_page_base_theme";
 
-interface ButtonComponentProps {
-  ref?: React.MutableRefObject<HTMLDivElement>;
+interface SubmitButtonComponentProps {
   label: string;
-  onClick?: () => void;
 }
 
-export const ButtonComponent = (
-  props: React.PropsWithRef<ButtonComponentProps>
+export const SubmitButtonComponent = (
+  props: React.PropsWithRef<SubmitButtonComponentProps>
 ) => {
-  const style = useButtonComponentStyle();
+  const style = useSubmitButtonComponentStyle();
   return (
-    <div ref={props.ref} css={style} onClick={() => props.onClick?.()}>
+    <button css={style} type="submit">
       {props.label}
-    </div>
+    </button>
   );
 };
 
-function useButtonComponentStyle() {
+function useSubmitButtonComponentStyle() {
   const theme = usePageBaseTheme();
   return css`
-    label: button;
+    label: submitbutton;
 
     padding: ${theme.padding};
     margin: auto;
     cursor: pointer;
 
     text-align: center;
-    border: none;
-    outline: none;
 
     color: ${theme.grayscale.labelOnColor};
-    background: none;
     background-color: ${theme.colors.normal};
 
     &:hover {

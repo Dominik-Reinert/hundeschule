@@ -4,6 +4,7 @@ import { usePageBaseTheme } from "../hooks/use_page_base_theme";
 
 interface FormComponentProps {
   title: string;
+  onSubmit?: () => void;
 }
 
 export const FormComponent = (
@@ -11,12 +12,12 @@ export const FormComponent = (
 ) => {
   const formStyle = useFormComponentStyle(React.Children.count(props.children));
   return (
-    <div css={formStyle}>
+    <form css={formStyle} onSubmit={props.onSubmit} noValidate>
       <div className="title">{props.title}</div>
       {React.Children.map(props.children, (child) => (
         <div className="wrapped-child">{child}</div>
       ))}
-    </div>
+    </form>
   );
 };
 
@@ -32,11 +33,10 @@ const useFormComponentStyle = (numberOfChildren: number) => {
     padding: 16px;
     margin: auto;
 
-
     display: flex;
     flex-direction: column;
     min-height: ${numberOfChildren * 70}px;
-    
+
     .wrapped-child {
       flex: 11 0 0;
     }

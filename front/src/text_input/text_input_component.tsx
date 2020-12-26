@@ -13,7 +13,13 @@ export const TextInputComponent = (
 ) => {
   const [focused, setFocused] = React.useState(false);
   const style = useTextInputStyle(focused);
-  const inputRef: React.MutableRefObject<HTMLInputElement> = React.useRef<HTMLInputElement>(undefined as any);
+  const inputRef: React.MutableRefObject<HTMLInputElement> = React.useRef<HTMLInputElement>(
+    undefined as any
+  );
+  const handleChange = React.useCallback(
+    (evt) => props.onChange?.(evt.target.value),
+    [props.onChange]
+  );
 
   return (
     <div css={style}>
@@ -25,6 +31,7 @@ export const TextInputComponent = (
         type="text"
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        onChange={handleChange}
       />
     </div>
   );
