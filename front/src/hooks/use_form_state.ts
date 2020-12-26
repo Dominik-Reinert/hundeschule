@@ -2,8 +2,8 @@ import * as React from "react";
 import { FormStateProps } from "../form/form_state_props";
 
 export enum VALIDATION_TYPE {
-  ANY_STRING = "/[a-zA-Z]+/g",
-  EMAIL = "/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g",
+  ANY_STRING = "[a-zA-Z]+",
+  EMAIL = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
 }
 
 export function useFormState(
@@ -21,7 +21,10 @@ export function useFormState(
   const [error, setError] = React.useState(undefined);
 
   const validateValue = React.useCallback<() => boolean>(() => {
-    if (!value.match(validationType)) {
+    console.log(
+      `checking if value '${value}' matches regex '${validationType}'`
+    );
+    if (value.match(new RegExp(validationType, "g")) === null) {
       setError("Kein gültiger value!");
       return false;
     }
