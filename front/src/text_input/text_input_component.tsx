@@ -49,9 +49,14 @@ function useTextInputStyle(focused: boolean) {
     border-bottom: 1px solid
       ${focused ? theme.colors.dark : theme.grayscale.borderOnBackground};
 
+    min-width: 220px;
+
     .hint {
       position: absolute;
       pointer-events: none;
+
+      font-style: italic;
+      color: ${theme.grayscale.labelOnBackground};
     }
 
     input {

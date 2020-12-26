@@ -10,10 +10,11 @@ export const LandingPage = (props) => {
     setFirstName,
     validateFirstName,
     firstNameFormState,
-  ] = useFormState("", VALIDATION_TYPE.ANY_STRING);
+  ] = useFormState("", VALIDATION_TYPE.ANY_STRING, "invalid first name!");
   const [name, setName, validateName, nameFormState] = useFormState(
     "",
-    VALIDATION_TYPE.ANY_STRING
+    VALIDATION_TYPE.ANY_STRING,
+    "invalid last name!"
   );
   const handleSubmit = React.useCallback(
     (evt) => {

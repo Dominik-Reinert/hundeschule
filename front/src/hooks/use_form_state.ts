@@ -8,7 +8,8 @@ export enum VALIDATION_TYPE {
 
 export function useFormState(
   initialValue: string,
-  validationType: VALIDATION_TYPE
+  validationType: VALIDATION_TYPE,
+  errorMessage?: string
 ): [
   currentValue: string,
   updateValue: (newValue: string) => void,
@@ -25,7 +26,7 @@ export function useFormState(
       `checking if value '${value}' matches regex '${validationType}'`
     );
     if (value.match(new RegExp(validationType, "g")) === null) {
-      setError("Kein gültiger value!");
+      setError(errorMessage);
       return false;
     }
     return true;
