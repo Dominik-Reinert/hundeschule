@@ -2,9 +2,8 @@ import { asInt } from "ts-extended-types";
 import { PostgreSql } from "ts-sql-query/databases/PostgreSql";
 import { SelectValues } from "ts-sql-query/expressions/select";
 import { PgPoolQueryRunner } from "ts-sql-query/queryRunners/PgPoolQueryRunner";
-import { Table } from "ts-sql-query/Table";
 import { dbPool } from "../../db/src/run_on_pool";
-import { DBConnection, DbInsertSets, MyDb } from "./db";
+import { DBConnection, DbInsertSets, DbSelectValues, DbTable, MyDb } from "./db";
 import {
   Person,
   PersonDto,
@@ -12,7 +11,7 @@ import {
   personTableInstance,
 } from "./person_table";
 
-class AppUserTable extends Table<MyDb> {
+class AppUserTable extends DbTable {
   personId = this.column("person_id", "int");
   password = this.column("password", "string");
   isAdmin = this.optionalColumnWithDefaultValue("is_admin", "boolean");
@@ -30,7 +29,7 @@ export interface AppUser {
   isAdmin: boolean;
 }
 
-const selectAppUser: SelectValues<MyDb & PostgreSql, AppUserTable, AppUser> = {
+const selectAppUser: DbSelectValues<AppUserTable, AppUser> = {
   personId: appuserTableInstance.personId,
   password: appuserTableInstance.password,
   isAdmin: appuserTableInstance.isAdmin,
