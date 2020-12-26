@@ -19,7 +19,9 @@ export const DescribedTextInput = (
   const style = useDescribedTextInputStyle();
   return (
     <div css={style}>
-      <span className="description">{props.description}</span>
+      <span className={`description ${props.required ? "required" : ""}`}>
+        {props.description}
+      </span>
       <TextInputComponent {...props} />
     </div>
   );
@@ -34,6 +36,11 @@ function useDescribedTextInputStyle() {
 
     .description {
       padding: ${theme.padding};
+
+      &.required:after {
+        content: " *";
+        color: ${theme.colors.normal};
+      }
     }
   `;
 }

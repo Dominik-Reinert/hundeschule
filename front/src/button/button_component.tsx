@@ -29,11 +29,8 @@ function useButtonComponentStyle() {
     cursor: pointer;
 
     text-align: center;
-    border: none;
-    outline: none;
 
     color: ${theme.grayscale.labelOnColor};
-    background: none;
     background-color: ${theme.colors.normal};
 
     &:hover {

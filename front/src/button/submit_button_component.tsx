@@ -27,6 +27,8 @@ function useSubmitButtonComponentStyle() {
     cursor: pointer;
 
     text-align: center;
+    border: none;
+    outline: none;
 
     color: ${theme.grayscale.labelOnColor};
     background-color: ${theme.colors.normal};
