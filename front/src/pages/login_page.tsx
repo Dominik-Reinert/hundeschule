@@ -1,3 +1,4 @@
+import axios from "axios";
 import * as React from "react";
 import { SubmitButtonComponent } from "../button/submit_button_component";
 import { FormComponent } from "../form/form_component";
@@ -21,11 +22,18 @@ export const LoginPage = (props) => {
     "Please enter your password!"
   );
   const handleSubmit = React.useCallback(
-    (evt) => {
+    async (evt) => {
       evt.preventDefault();
       if ([validatePassword(), validateEmail()].every((value) => value)) {
-        fetch({"http://localhost:3000/login"})
-        alert("submitting....");
+        const response = await axios.request({
+          method: "POST",
+          url: "http://localhost:3000/login",
+          data: { email, password },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        alert(`submitted login, got response: ${JSON.stringify(response)}`);
       }
     },
     [password, email]
@@ -45,6 +53,7 @@ export const LoginPage = (props) => {
         hint="*****"
         onChange={(newPassword) => setPassword(newPassword)}
         {...passwordFormState}
+        renderAsPasswd={true}
         required={true}
       />
       <SubmitButtonComponent label={"Login"} />

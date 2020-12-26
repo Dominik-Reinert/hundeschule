@@ -16,6 +16,12 @@
       }
     ],
     [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
+    ],
+    [
       "@babel/plugin-transform-react-jsx",
       { "pragma": "___EmotionJSX", "pragmaFrag": "React.Fragment" }
     ],

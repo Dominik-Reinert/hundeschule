@@ -23,6 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // To parse cookies from the HTTP Request
 app.use(cookieParser());
 
+app.use(express.json());
+
 app.set("views", path.resolve(__dirname, "views"));
 app.engine(
   "handlebars",
