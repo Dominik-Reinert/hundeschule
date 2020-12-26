@@ -16,20 +16,46 @@ interface DescribedTextInputProps
 export const DescribedTextInput = (
   props: React.PropsWithRef<DescribedTextInputProps>
 ) => {
+  const wrapperStyle = useDescribedTextInputWrapperStyle(
+    props.validationErrorMsg !== undefined
+  );
   const style = useDescribedTextInputStyle();
   return (
-    <div css={style}>
-      <span className={`description ${props.required ? "required" : ""}`}>
-        {props.description}
-      </span>
-      <TextInputComponent {...props} />
-    </div>
+    <span css={wrapperStyle}>
+      <div css={style}>
+        <span className={`description ${props.required ? "required" : ""}`}>
+          {props.description}
+        </span>
+        <TextInputComponent {...props} />
+      </div>
+      <div className={`validation-error`}>{props.validationErrorMsg}</div>
+    </span>
   );
 };
+
+function useDescribedTextInputWrapperStyle(hasError: boolean) {
+  const theme = usePageBaseTheme();
+  return css`
+    label: described-text-input-wrapper;
+
+    .validation-error {
+      visibility: ${hasError ? "visible" : "hidden"};
+      color: ${theme.colors.error};
+      min-height: 20px;
+
+      font-size: ${theme.fonts.additionalInfo.size};
+      font-weight: ${theme.fonts.additionalInfo.weight};
+      font-style: italic;
+
+      padding: 2px ${theme.padding};
+    }
+  `;
+}
+
 function useDescribedTextInputStyle() {
   const theme = usePageBaseTheme();
   return css`
-    labeld: described-text-input;
+    label: described-text-input;
 
     display: flex;
     justify-content: space-between;

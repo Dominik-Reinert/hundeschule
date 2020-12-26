@@ -4,7 +4,7 @@ import { usePageBaseTheme } from "../hooks/use_page_base_theme";
 
 interface FormComponentProps {
   title: string;
-  onSubmit?: () => void;
+  onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export const FormComponent = (

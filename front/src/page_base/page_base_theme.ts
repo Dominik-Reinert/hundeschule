@@ -14,6 +14,7 @@ export interface PageBaseTheme {
   colors: {
     dark: string;
     normal: string;
+    error: string;
   };
   grayscale: {
     dark: string;
@@ -52,6 +53,7 @@ export const orangeTheme: PageBaseTheme = {
   colors: {
     dark: "#FE5800",
     normal: "#FF7300",
+    error: "#ED4337",
   },
   grayscale: {
     dark: "#444444",

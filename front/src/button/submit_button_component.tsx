@@ -11,7 +11,7 @@ export const SubmitButtonComponent = (
 ) => {
   const style = useSubmitButtonComponentStyle();
   return (
-    <button css={style} type="submit">
+    <button css={style} type="submit" onClick={() => false}>
       {props.label}
     </button>
   );
