@@ -5,6 +5,7 @@ import { usePageBaseTheme } from "../hooks/use_page_base_theme";
 export interface TextInputComponentProps {
   ref?: React.MutableRefObject<HTMLDivElement>;
   hint: string;
+  renderAsPasswd?: boolean;
   onChange?: (currentValue: string) => void;
 }
 
@@ -28,7 +29,7 @@ export const TextInputComponent = (
       )}
       <input
         ref={inputRef}
-        type="text"
+        type={props.renderAsPasswd ? "password" : "text"}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={handleChange}
@@ -67,6 +68,7 @@ function useTextInputStyle(focused: boolean) {
       -webkit-box-shadow: none;
       -moz-box-shadow: none;
       box-shadow: none;
+      width: 100%;
     }
   `;
 }

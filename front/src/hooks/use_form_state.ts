@@ -4,6 +4,8 @@ import { FormStateProps } from "../form/form_state_props";
 export enum VALIDATION_TYPE {
   ANY_STRING = "[a-zA-Z]+",
   EMAIL = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+  PASSWORD_INPUT = "[a-zA-Z0-9]+",
+  PASSWORD_DEFINITION = "(?=.*?[a-z])(?=.*?[0-9]).{8,}$"
 }
 
 export function useFormState(
