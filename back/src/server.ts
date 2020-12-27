@@ -7,13 +7,11 @@ import express from "express";
 import "express-async-errors";
 import exphbs from "express-handlebars";
 import path from "path";
-import { createLocalDate } from "ts-extended-types";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
 import { AppUserDto, AppUserJoined } from "./table/app_user_table";
-import { AuthTokenDto } from "./table/auth_token_table";
 
 export const app = express();
-app.use(cors({ origin: "http://localhost:8080" }));
+app.use(cors({ origin: "http://localhost:8080", credentials: true }));
 
 app.use(express.static(path.join(__dirname, "../dist")));
 
@@ -115,14 +113,15 @@ app.post("/login", async (req, res) => {
   console.info(`found app user: ${JSON.stringify(appUser)}`);
   if (appUser !== null && appUser.password === hashedPassword) {
     const authToken = generateAuthToken();
-    await AuthTokenDto.insert({
-      personId: appUser.id as number,
-      token: authToken,
-      lastUsed: createLocalDate(new Date()),
-    });
 
     // Setting the auth token in cookies
-    res.cookie("AuthToken", authToken);
+    res.cookie("AuthToken", authToken, {
+      maxAge: 24 * 60 * 60 * 1000 /* 24 hours */,
+      domain: "localhost:3000",
+      httpOnly: true,
+      sameSite: app.get("env") === "development" ? true : "none",
+      secure: app.get("env") === "development" ? false : true,
+    });
 
     // Redirect user to the protected page
     res.redirect("/protected");

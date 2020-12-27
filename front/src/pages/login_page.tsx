@@ -25,14 +25,15 @@ export const LoginPage = (props) => {
     async (evt) => {
       evt.preventDefault();
       if ([validatePassword(), validateEmail()].every((value) => value)) {
-        const response = await axios.request({
-          method: "POST",
-          url: "http://localhost:3000/login",
-          data: { email, password },
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.post(
+          "http://localhost:3000/login",
+          { email, password },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         alert(`submitted login, got response: ${JSON.stringify(response)}`);
       }
     },
