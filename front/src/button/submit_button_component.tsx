@@ -1,6 +1,7 @@
 import { css } from "@emotion/core";
 import * as React from "react";
 import { usePageBaseTheme } from "../hooks/use_page_base_theme";
+import { useSharedButtonStyle } from "./shared_button_style";
 
 interface SubmitButtonComponentProps {
   label: string;
@@ -19,23 +20,12 @@ export const SubmitButtonComponent = (
 
 function useSubmitButtonComponentStyle() {
   const theme = usePageBaseTheme();
+  const sharedStyle = useSharedButtonStyle();
   return css`
     label: submitbutton;
-
-    padding: ${theme.padding};
-    margin: auto;
-    cursor: pointer;
-
-    text-align: center;
     border: none;
     outline: none;
 
-    color: ${theme.grayscale.labelOnColor};
-    background-color: ${theme.colors.normal};
-
-    &:hover {
-      color: ${theme.grayscale.labelOnColor};
-      background-color: ${theme.colors.dark};
-    }
+    ${sharedStyle}
   `;
 }

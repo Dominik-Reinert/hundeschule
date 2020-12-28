@@ -10,6 +10,7 @@ export interface PageBaseTheme {
     outline: PageBaseThemefont;
     normal: PageBaseThemefont;
     additionalInfo: PageBaseThemefont;
+    button: PageBaseThemefont;
   };
   colors: {
     dark: string;
@@ -48,6 +49,10 @@ export const orangeTheme: PageBaseTheme = {
     additionalInfo: {
       size: "12px",
       weight: "300",
+    },
+    button: {
+      size: "16px",
+      weight: "500",
     },
   },
   colors: {

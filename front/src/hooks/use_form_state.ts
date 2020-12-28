@@ -5,7 +5,7 @@ export enum VALIDATION_TYPE {
   ANY_STRING = "[a-zA-Z]+",
   EMAIL = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
   PASSWORD_INPUT = "[a-zA-Z0-9]+",
-  PASSWORD_DEFINITION = "(?=.*?[a-z])(?=.*?[0-9]).{8,}$"
+  PASSWORD_DEFINITION = "(?=.*?[a-z])(?=.*?[0-9]).{8,}$",
 }
 
 export function useFormState(
@@ -16,12 +16,17 @@ export function useFormState(
   currentValue: string,
   updateValue: (newValue: string) => void,
   validate: () => boolean,
-  formState: FormStateProps
+  formState: FormStateProps,
+  setCustomError: (customError) => void
 ] {
   const [value, setValueInt] = React.useState(initialValue);
   const setValue = React.useCallback((newV) => setValueInt(newV), [value]);
 
   const [error, setError] = React.useState(undefined);
+  const setCustomError = React.useCallback(
+    (customError) => setError(customError),
+    [error]
+  );
 
   const validateValue = React.useCallback<() => boolean>(() => {
     console.log(
@@ -36,5 +41,11 @@ export function useFormState(
 
   React.useEffect(() => setError(undefined), [value]);
 
-  return [value, setValue, validateValue, { validationErrorMsg: error }];
+  return [
+    value,
+    setValue,
+    validateValue,
+    { validationErrorMsg: error },
+    setCustomError,
+  ];
 }

@@ -1,11 +1,15 @@
 import axios from "axios";
 import * as React from "react";
 import { SubmitButtonComponent } from "../button/submit_button_component";
-import { FormComponent } from "../form/form_component";
 import { useFormState, VALIDATION_TYPE } from "../hooks/use_form_state";
 import { DescribedTextInput } from "../text_input/described_text_input";
+import { FormComponent } from "./form_component";
 
-export const LoginPage = (props) => {
+export interface LoginFormProps {
+  onGoToRegisterClick?: () => void;
+}
+
+export const LoginForm = (props: LoginFormProps) => {
   const [email, setEmail, validateEmail, emailFormState] = useFormState(
     "",
     VALIDATION_TYPE.EMAIL,
@@ -39,9 +43,17 @@ export const LoginPage = (props) => {
     },
     [password, email]
   );
-
   return (
-    <FormComponent title="Login" onSubmit={handleSubmit}>
+    <FormComponent
+      title="Login"
+      submitButtonLabel="Login"
+      headerButton={
+        props.onGoToRegisterClick
+          ? { label: "Register", onClick: props.onGoToRegisterClick }
+          : undefined
+      }
+      onSubmit={handleSubmit}
+    >
       <DescribedTextInput
         description="email"
         hint="enter your email adress"
@@ -57,7 +69,6 @@ export const LoginPage = (props) => {
         renderAsPasswd={true}
         required={true}
       />
-      <SubmitButtonComponent label={"Login"} />
     </FormComponent>
   );
 };
