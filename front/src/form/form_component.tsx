@@ -53,6 +53,7 @@ const useFormComponentStyle = (numberOfChildren: number) => {
 
     .wrapped-child {
       flex: 11 0 0;
+      margin-bottom: 12px;
     }
 
     .header-button {

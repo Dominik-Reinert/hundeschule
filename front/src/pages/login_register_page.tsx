@@ -1,3 +1,4 @@
+import { css } from "@emotion/core";
 import * as React from "react";
 import { LoginForm } from "../form/login_form";
 import { RegisterForm } from "../form/register_form";
@@ -16,8 +17,9 @@ export const LoginPage = (props) => {
     () => setForm(CurrentForm.REGISTER),
     [form]
   );
+  const pageStyle = useLoginRegisterPageStyle();
   return (
-    <div>
+    <div css={pageStyle}>
       {form === CurrentForm.REGISTER && (
         <RegisterForm onGoToLoginClick={handleGoToLogin} />
       )}
@@ -27,3 +29,12 @@ export const LoginPage = (props) => {
     </div>
   );
 };
+
+function useLoginRegisterPageStyle() {
+  return css`
+    label: login-register-page;
+
+    height: 98vh;
+    display: flex;
+  `;
+}
