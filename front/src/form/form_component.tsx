@@ -41,6 +41,7 @@ const useFormComponentStyle = (numberOfChildren: number) => {
     label: form-component;
 
     border: 1px solid ${theme.grayscale.borderOnBackground};
+    border-radius: ${theme.borderRadius};
     min-width: 400px;
     width: fit-content;
 
@@ -52,6 +53,7 @@ const useFormComponentStyle = (numberOfChildren: number) => {
     min-height: ${numberOfChildren * 70}px;
 
     background-color: white;
+
 
     .wrapped-child {
       flex: 11 0 0;
@@ -76,8 +78,10 @@ const useFormComponentStyle = (numberOfChildren: number) => {
 
     .controls {
       margin: 12px 0;
+      display:flex;
 
       > * {
+        flex: 12 0 0;
         float: right;
       }
     }

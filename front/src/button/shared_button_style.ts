@@ -12,6 +12,8 @@ export const useSharedButtonStyle = () => {
 
     text-align: center;
 
+    border-radius: ${theme.borderRadius};
+
     color: ${theme.grayscale.labelOnColor};
     background-color: ${theme.colors.normal};
 

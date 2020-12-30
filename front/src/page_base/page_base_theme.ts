@@ -26,6 +26,7 @@ export interface PageBaseTheme {
     labelOnColor: string;
   };
   padding: string;
+  borderRadius: string;
 }
 
 export const orangeTheme: PageBaseTheme = {
@@ -52,7 +53,7 @@ export const orangeTheme: PageBaseTheme = {
     },
     button: {
       size: "16px",
-      weight: "500",
+      weight: "800",
     },
   },
   colors: {
@@ -69,4 +70,5 @@ export const orangeTheme: PageBaseTheme = {
     background: "#f5f5f5",
   },
   padding: "8px",
+  borderRadius: "8px",
 };
