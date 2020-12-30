@@ -34,7 +34,6 @@ function useLoginRegisterPageStyle() {
   return css`
     label: login-register-page;
 
-    height: 98vh;
     display: flex;
   `;
 }

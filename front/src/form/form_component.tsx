@@ -51,6 +51,8 @@ const useFormComponentStyle = (numberOfChildren: number) => {
     flex-direction: column;
     min-height: ${numberOfChildren * 70}px;
 
+    background-color: white;
+
     .wrapped-child {
       flex: 11 0 0;
       margin-bottom: 12px;
