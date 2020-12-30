@@ -25,5 +25,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/page_base/decorator/page_font_decora.tsx"  ]
 }
