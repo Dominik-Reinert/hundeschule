@@ -3,11 +3,13 @@
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import exphbs from "express-handlebars";
 import path from "path";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
+import { errorHandling } from "./middleware/error_handling";
+import { NotFoundError } from "./middleware/not_found_error";
 import { AppUserDto, AppUserJoined } from "./table/app_user_table";
 
 export const app = express();
@@ -54,7 +56,7 @@ const getHashedPassword = (password: string) => {
   return hash;
 };
 
-app.post("/register", async (req, res) => {
+app.post("/register", async (req, res, next) => {
   const { email, firstName, lastName, password, confirmPassword } = req.body;
 
   // Check if the password and confirm password fields match
@@ -126,9 +128,9 @@ app.post("/login", async (req, res) => {
     // Redirect user to the protected page
     res.redirect("/protected");
   } else {
-    res.render("login", {
-      message: "Invalid username or password",
-      messageClass: "alert-danger",
-    });
+    throw new NotFoundError();
   }
 });
+
+//error handling always needs to be last middleware!
+app.use(errorHandling);
