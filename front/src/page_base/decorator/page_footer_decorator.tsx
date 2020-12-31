@@ -7,11 +7,13 @@ export const PageFooterDecorator = (props: React.PropsWithChildren<{}>) => {
   return (
     <div css={style}>
       <div className="page-content">{props.children}</div>
-      <footer className="page-footer">
-        <div>Impressum</div>
-        <div>Privacy</div>
-        <div>Project github page</div>
-      </footer>
+      <div className="page-footer-wrapper">
+        <footer className="page-footer">
+          <div>Impressum</div>
+          <div>Privacy</div>
+          <div>Project github page</div>
+        </footer>
+      </div>
     </div>
   );
 };
@@ -30,6 +32,10 @@ function usePageFooterStyle() {
       }
     }
 
+    .page-footer-wrapper {
+      padding: 0 ${theme.padding};
+    }
+
     .page-footer {
       height: 49px;
       border-top: 1px solid ${theme.grayscale.borderOnBackground};
@@ -40,8 +46,6 @@ function usePageFooterStyle() {
 
       font-size: ${theme.fonts.outline.size};
       font-weight: ${theme.fonts.outline.weight};
-
-      background-color: white;
     }
   `;
 }

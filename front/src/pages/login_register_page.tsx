@@ -9,7 +9,7 @@ enum CurrentForm {
 }
 
 export const LoginPage = (props) => {
-  const [form, setForm] = React.useState(CurrentForm.REGISTER);
+  const [form, setForm] = React.useState(CurrentForm.LOGIN);
   const handleGoToLogin = React.useCallback(() => setForm(CurrentForm.LOGIN), [
     form,
   ]);
