@@ -49,7 +49,8 @@ export const PageNotificationDecorator = (
               key={`${notification.text}-${notification.type}`}
               className={`notification ${notification.type}`}
             >
-              {notification.text}
+              <span className="notification-text">{notification.text}</span>
+              <span>x</span>
             </div>
           );
         })}
@@ -65,6 +66,35 @@ function usePageNotificationStyle() {
     label: page-notification-decorator;
 
     .notification-container {
+      position: fixed;
+      right: 0;
+    }
+
+    .notification {
+      border-radius: ${theme.borderRadius};
+      border-left: 4px solid;
+
+      min-width: 250px;
+      min-height: 80px;
+
+      &-text {
+        margin: auto 8px;
+      }
+
+      &.ERROR {
+        border-color: ${theme.notifications.errorDark};
+        background-color: ${theme.notifications.error};
+      }
+
+      &.INFO {
+        border-color: ${theme.notifications.infoDark};
+        background-color: ${theme.notifications.info};
+      }
+
+      &.WARNING {
+        border-color: ${theme.notifications.warningDark};
+        background-color: ${theme.notifications.warning};
+      }
     }
   `;
 }

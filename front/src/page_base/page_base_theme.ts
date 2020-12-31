@@ -17,6 +17,14 @@ export interface PageBaseTheme {
     normal: string;
     error: string;
   };
+  notifications: {
+    error: string;
+    errorDark: string;
+    info: string;
+    infoDark: string;
+    warning: string;
+    warningDark: string;
+  };
   grayscale: {
     dark: string;
     hoverOnDark: string;
@@ -60,6 +68,14 @@ export const orangeTheme: PageBaseTheme = {
     dark: "#FE5800",
     normal: "#FF7300",
     error: "#ED4337",
+  },
+  notifications: {
+    error: "#ffe2db",
+    errorDark: "#ED4337",
+    info: "#e5edff",
+    infoDark: "#2598FF",
+    warning: "#ffff82",
+    warningDark: "#FFE165",
   },
   grayscale: {
     dark: "#444444",

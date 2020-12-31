@@ -24,6 +24,10 @@ export async function postRequest<
       validateStatus: () => true,
       ...config,
     });
+    type =
+      response.status >= 200 && response.status < 300
+        ? NotificationType.INFO
+        : NotificationType.ERROR;
     notification = response.data?.notification;
   } catch (error) {
     console.error(error);
