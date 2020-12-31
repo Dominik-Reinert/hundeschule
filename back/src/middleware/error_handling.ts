@@ -9,8 +9,8 @@ export function errorHandling(
   next: NextFunction
 ): void {
   console.error(error);
-  const { statusCode, errorNotification } = isMiddlewareError(error)
+  const { statusCode, notification } = isMiddlewareError(error)
     ? error
     : new GenericError();
-  res.status(statusCode).json({ errorNotification });
+  res.status(statusCode).json({ notification });
 }

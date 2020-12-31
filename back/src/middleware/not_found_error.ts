@@ -9,7 +9,7 @@ export function isMiddlewareError(
 export class NotFoundError extends Error implements MiddlewareError {
   public readonly statusCode: number = 404;
 
-  constructor(public errorNotification: string = "Could not find entry!") {
-    super(errorNotification);
+  constructor(public notification: string = "Could not find entry!") {
+    super(notification);
   }
 }

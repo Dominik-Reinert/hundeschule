@@ -1,4 +1,4 @@
 export interface MiddlewareError {
     statusCode: number;
-    errorNotification: string;
+    notification: string;
 }
