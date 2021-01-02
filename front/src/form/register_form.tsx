@@ -1,12 +1,11 @@
 import axios from "axios";
 import * as React from "react";
-import { SubmitButtonComponent } from "../button/submit_button_component";
 import { useFormState, VALIDATION_TYPE } from "../hooks/use_form_state";
 import { DescribedTextInput } from "../text_input/described_text_input";
 import { FormComponent } from "./form_component";
 
 export interface RegisterFormProps {
-  onGoToLoginClick?: () => void;
+  onGoToLoginClick: () => void;
 }
 
 export const RegisterForm = (props: RegisterFormProps) => {
@@ -98,12 +97,9 @@ export const RegisterForm = (props: RegisterFormProps) => {
     <FormComponent
       title="Register"
       submitButtonLabel="Register"
-      headerButton={
-        props.onGoToLoginClick
-          ? { label: "Login", onClick: props.onGoToLoginClick }
-          : undefined
-      }
+      secondaryControlLabel={"Login"}
       onSubmit={handleLogin}
+      onSecondaryControlClick={props.onGoToLoginClick}
     >
       <DescribedTextInput
         description="first name"

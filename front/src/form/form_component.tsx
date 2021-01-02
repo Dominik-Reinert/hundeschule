@@ -1,5 +1,6 @@
 import { css } from "@emotion/core";
 import * as React from "react";
+import { ButtonComponent } from "../button/button_component";
 import { SubmitButtonComponent } from "../button/submit_button_component";
 import { usePageBaseTheme } from "../hooks/use_page_base_theme";
 
@@ -10,7 +11,9 @@ interface FormComponentProps {
     label: string;
     onClick: () => void;
   };
+  secondaryControlLabel?: string;
   onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSecondaryControlClick?: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export const FormComponent = (
@@ -31,6 +34,14 @@ export const FormComponent = (
       <div className="controls">
         <SubmitButtonComponent label={props.submitButtonLabel} />
       </div>
+      {props.secondaryControlLabel ? (
+        <div className="secondary-controls">
+          <ButtonComponent
+            label={props.secondaryControlLabel}
+            secondary={true}
+          />
+        </div>
+      ) : undefined}
     </form>
   );
 };
@@ -74,6 +85,12 @@ const useFormComponentStyle = (numberOfChildren: number) => {
       margin: auto;
     }
 
+    .secondary-controls {
+      padding: 12px 0 0 0;
+      border-top: 1px solid ${theme.grayscale.borderOnBackground};
+    }
+
+    .secondary-controls,
     .controls {
       margin: 0 0 12px 0;
       display: flex;

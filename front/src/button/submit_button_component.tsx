@@ -5,12 +5,13 @@ import { useSharedButtonStyle } from "./shared_button_style";
 
 interface SubmitButtonComponentProps {
   label: string;
+  secondary?: boolean;
 }
 
 export const SubmitButtonComponent = (
   props: React.PropsWithRef<SubmitButtonComponentProps>
 ) => {
-  const style = useSubmitButtonComponentStyle();
+  const style = useSubmitButtonComponentStyle(props.secondary);
   return (
     <button css={style} type="submit" onClick={() => false}>
       {props.label}
@@ -18,13 +19,11 @@ export const SubmitButtonComponent = (
   );
 };
 
-function useSubmitButtonComponentStyle() {
+function useSubmitButtonComponentStyle(secondary?: boolean) {
   const theme = usePageBaseTheme();
-  const sharedStyle = useSharedButtonStyle();
+  const sharedStyle = useSharedButtonStyle(secondary);
   return css`
     label: submitbutton;
-    border: none;
-    outline: none;
 
     ${sharedStyle}
   `;

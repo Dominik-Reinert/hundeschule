@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useFormState, VALIDATION_TYPE } from "../hooks/use_form_state";
 import { postRequest } from "../request/post_request";
-import { DescribedTextInput } from "../text_input/described_text_input";
 import { TextInputComponent } from "../text_input/text_input_component";
 import { FormComponent } from "./form_component";
 
@@ -56,12 +55,9 @@ export const LoginForm = (props: LoginFormProps) => {
     <FormComponent
       title="Login"
       submitButtonLabel="Login"
-      headerButton={
-        props.onGoToRegisterClick
-          ? { label: "Register", onClick: props.onGoToRegisterClick }
-          : undefined
-      }
+      secondaryControlLabel={"Register"}
       onSubmit={handleSubmit}
+      onSecondaryControlClick={props.onGoToRegisterClick}
     >
       <TextInputComponent
         hint="enter your email adress"
