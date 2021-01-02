@@ -8,8 +8,7 @@ import {
 } from "./text_input_component";
 
 interface DescribedTextInputProps
-  extends TextInputComponentProps,
-    FormStateProps {
+  extends TextInputComponentProps {
   description: string;
 }
 
@@ -17,7 +16,6 @@ export const DescribedTextInput = (
   props: React.PropsWithRef<DescribedTextInputProps>
 ) => {
   const wrapperStyle = useDescribedTextInputWrapperStyle(
-    props.validationErrorMsg !== undefined
   );
   const style = useDescribedTextInputStyle();
   return (
@@ -28,7 +26,6 @@ export const DescribedTextInput = (
         </span>
         <TextInputComponent {...props} />
       </div>
-      <div className={`validation-error`}>{props.validationErrorMsg}</div>
     </span>
   );
 };
@@ -38,17 +35,7 @@ function useDescribedTextInputWrapperStyle(hasError: boolean) {
   return css`
     label: described-text-input-wrapper;
 
-    .validation-error {
-      visibility: ${hasError ? "visible" : "hidden"};
-      color: ${theme.colors.error};
-      min-height: 20px;
-
-      font-size: ${theme.fonts.additionalInfo.size};
-      font-weight: ${theme.fonts.additionalInfo.weight};
-      font-style: italic;
-
-      padding: 2px ${theme.padding};
-    }
+    
   `;
 }
 

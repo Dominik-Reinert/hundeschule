@@ -2,6 +2,7 @@ import * as React from "react";
 import { useFormState, VALIDATION_TYPE } from "../hooks/use_form_state";
 import { postRequest } from "../request/post_request";
 import { DescribedTextInput } from "../text_input/described_text_input";
+import { TextInputComponent } from "../text_input/text_input_component";
 import { FormComponent } from "./form_component";
 
 export interface LoginFormProps {
@@ -62,15 +63,13 @@ export const LoginForm = (props: LoginFormProps) => {
       }
       onSubmit={handleSubmit}
     >
-      <DescribedTextInput
-        description="email"
+      <TextInputComponent
         hint="enter your email adress"
         onChange={(newEmail) => setEmail(newEmail)}
         {...emailFormState}
         required={true}
       />
-      <DescribedTextInput
-        description="password"
+      <TextInputComponent
         hint="*****"
         onChange={(newPassword) => setPassword(newPassword)}
         {...passwordFormState}
