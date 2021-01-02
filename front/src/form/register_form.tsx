@@ -72,7 +72,7 @@ export const RegisterForm = (props: RegisterFormProps) => {
         if (password === confirmPassword) {
           const response = await axios.post(
             "http://localhost:3000/register",
-            { email, password },
+            { email, password, firstName, lastName, confirmPassword },
             {
               headers: {
                 "Content-Type": "application/json",
@@ -120,14 +120,14 @@ export const RegisterForm = (props: RegisterFormProps) => {
         required={true}
       />
       <TextInputComponent
-        hint="*****"
+        hint="password"
         onChange={(newPassword) => setPassword(newPassword)}
         {...passwordFormState}
         renderAsPasswd={true}
         required={true}
       />
       <TextInputComponent
-        hint="*****"
+        hint="confirm password"
         onChange={(newPassword) => setConfirmPassword(newPassword)}
         {...confirmPasswordFormState}
         renderAsPasswd={true}

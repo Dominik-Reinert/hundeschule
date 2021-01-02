@@ -37,16 +37,6 @@ export const LoginForm = (props: LoginFormProps) => {
             },
           },
         });
-        /*  const response = await axios.post(
-          "http://localhost:3000/login",
-          { email, password },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        ); */
-        alert(`submitted login, got response: ${JSON.stringify(response)}`);
       }
     },
     [password, email]
@@ -66,7 +56,7 @@ export const LoginForm = (props: LoginFormProps) => {
         required={true}
       />
       <TextInputComponent
-        hint="*****"
+        hint="password"
         onChange={(newPassword) => setPassword(newPassword)}
         {...passwordFormState}
         renderAsPasswd={true}

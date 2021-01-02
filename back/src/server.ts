@@ -3,13 +3,16 @@
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import "express-async-errors";
 import exphbs from "express-handlebars";
 import path from "path";
 import { addDebugRoutes } from "./debug_endpoints/add_debug_routes";
+import { AlreadyRegisteredError } from "./middleware/already_registered_error";
 import { errorHandling } from "./middleware/error_handling";
 import { NotFoundError } from "./middleware/not_found_error";
+import { PasswordsNotMatchingError } from "./middleware/passwords_not_matching_error";
+import { WrongCredentialsError } from "./middleware/wrong_credentials_error";
 import { AppUserDto, AppUserJoined } from "./table/app_user_table";
 
 export const app = express();
@@ -67,12 +70,7 @@ app.post("/register", async (req, res, next) => {
 
     // Check if user with the same email is also registered
     if (appUserWithEmail !== null) {
-      res.render("register", {
-        message: "User already registered.",
-        messageClass: "alert-danger",
-      });
-
-      return;
+      throw new AlreadyRegisteredError();
     }
 
     const passwordHash = getHashedPassword(password);
@@ -85,15 +83,9 @@ app.post("/register", async (req, res, next) => {
       password: passwordHash,
     });
 
-    res.render("login", {
-      message: "Registration Complete. Please login to continue.",
-      messageClass: "alert-success",
-    });
+    res.redirect("home");
   } else {
-    res.render("register", {
-      message: "Password does not match.",
-      messageClass: "alert-danger",
-    });
+    new PasswordsNotMatchingError();
   }
 });
 
@@ -113,20 +105,24 @@ app.post("/login", async (req, res) => {
     email
   );
   console.info(`found app user: ${JSON.stringify(appUser)}`);
-  if (appUser !== null && appUser.password === hashedPassword) {
-    const authToken = generateAuthToken();
+  if (appUser !== null) {
+    if (appUser.password === hashedPassword) {
+      const authToken = generateAuthToken();
 
-    // Setting the auth token in cookies
-    res.cookie("AuthToken", authToken, {
-      maxAge: 24 * 60 * 60 * 1000 /* 24 hours */,
-      domain: "localhost:3000",
-      httpOnly: true,
-      sameSite: app.get("env") === "development" ? true : "none",
-      secure: app.get("env") === "development" ? false : true,
-    });
+      // Setting the auth token in cookies
+      res.cookie("AuthToken", authToken, {
+        maxAge: 24 * 60 * 60 * 1000 /* 24 hours */,
+        domain: "localhost:3000",
+        httpOnly: true,
+        sameSite: app.get("env") === "development" ? true : "none",
+        secure: app.get("env") === "development" ? false : true,
+      });
 
-    // Redirect user to the protected page
-    res.redirect("/protected");
+      // Redirect user to the protected page
+      res.redirect("/home");
+    } else {
+      throw new WrongCredentialsError();
+    }
   } else {
     throw new NotFoundError();
   }
