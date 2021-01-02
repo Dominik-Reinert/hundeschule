@@ -54,10 +54,8 @@ const useFormComponentStyle = (numberOfChildren: number) => {
 
     background-color: white;
 
-
     .wrapped-child {
       flex: 11 0 0;
-      margin-bottom: 12px;
     }
 
     .header-button {
@@ -77,8 +75,8 @@ const useFormComponentStyle = (numberOfChildren: number) => {
     }
 
     .controls {
-      margin: 12px 0;
-      display:flex;
+      margin: 0 0 12px 0;
+      display: flex;
 
       > * {
         flex: 12 0 0;

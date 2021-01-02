@@ -1,22 +1,19 @@
 import { css } from "@emotion/core";
 import * as React from "react";
-import { FormStateProps } from "../form/form_state_props";
 import { usePageBaseTheme } from "../hooks/use_page_base_theme";
 import {
   TextInputComponent,
   TextInputComponentProps,
 } from "./text_input_component";
 
-interface DescribedTextInputProps
-  extends TextInputComponentProps {
+interface DescribedTextInputProps extends TextInputComponentProps {
   description: string;
 }
 
 export const DescribedTextInput = (
   props: React.PropsWithRef<DescribedTextInputProps>
 ) => {
-  const wrapperStyle = useDescribedTextInputWrapperStyle(
-  );
+  const wrapperStyle = useDescribedTextInputWrapperStyle();
   const style = useDescribedTextInputStyle();
   return (
     <span css={wrapperStyle}>
@@ -30,12 +27,10 @@ export const DescribedTextInput = (
   );
 };
 
-function useDescribedTextInputWrapperStyle(hasError: boolean) {
+function useDescribedTextInputWrapperStyle() {
   const theme = usePageBaseTheme();
   return css`
     label: described-text-input-wrapper;
-
-    
   `;
 }
 

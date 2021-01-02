@@ -29,15 +29,13 @@ export const TextInputComponent = (
   return (
     <div css={style}>
       <div className="text-input-wrapper">
-        {!focused && !inputRef.current?.value && (
-          <span className="hint">{props.hint}</span>
-        )}
         <input
           ref={inputRef}
           type={props.renderAsPasswd ? "password" : "text"}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           onChange={handleChange}
+          placeholder={props.hint}
         />
       </div>
       <div className={`validation-error`}>{props.validationErrorMsg}</div>
@@ -52,24 +50,19 @@ function useTextInputStyle(focused: boolean, hasError: boolean) {
 
     .text-input-wrapper {
       position: relative;
+      display: flex;
+      align-content: center;
 
       padding: ${theme.padding};
 
       border-radius: ${theme.borderRadius};
 
       background-color: ${theme.grayscale.background};
-      border-bottom: 1px solid
+      border: 1px solid
         ${focused ? theme.colors.dark : theme.grayscale.borderOnBackground};
 
       min-width: 220px;
-
-      .hint {
-        position: absolute;
-        pointer-events: none;
-
-        font-style: italic;
-        color: ${theme.grayscale.labelOnBackground};
-      }
+      min-height: 30px;
 
       input {
         outline: none !important;
@@ -80,8 +73,11 @@ function useTextInputStyle(focused: boolean, hasError: boolean) {
         -moz-box-shadow: none;
         box-shadow: none;
         width: 100%;
+
+        font-size: ${theme.fonts.button.size};
       }
     }
+
     .validation-error {
       visibility: ${hasError ? "visible" : "hidden"};
       color: ${theme.colors.error};

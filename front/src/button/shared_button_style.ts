@@ -11,6 +11,7 @@ export const useSharedButtonStyle = () => {
     cursor: pointer;
 
     text-align: center;
+    min-height: 45px;
 
     border-radius: ${theme.borderRadius};
 

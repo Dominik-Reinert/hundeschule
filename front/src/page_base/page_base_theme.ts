@@ -15,6 +15,8 @@ export interface PageBaseTheme {
   colors: {
     dark: string;
     normal: string;
+    secondaryNormal: string;
+    secondaryDark: string;
     error: string;
   };
   notifications: {
@@ -67,6 +69,8 @@ export const orangeTheme: PageBaseTheme = {
   colors: {
     dark: "#FE5800",
     normal: "#FF7300",
+    secondaryNormal: "#00b9ff",
+    secondaryDark: "#0094cc",
     error: "#ED4337",
   },
   notifications: {
