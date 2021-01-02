@@ -1,6 +1,7 @@
-import axios from "axios";
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 import { useFormState, VALIDATION_TYPE } from "../hooks/use_form_state";
+import { postRequest } from "../request/post_request";
 import { TextInputComponent } from "../text_input/text_input_component";
 import { FormComponent } from "./form_component";
 
@@ -56,7 +57,7 @@ export const RegisterForm = (props: RegisterFormProps) => {
     VALIDATION_TYPE.PASSWORD_DEFINITION,
     "Please confirm your password!"
   );
-
+  const history = useHistory();
   const handleLogin = React.useCallback(
     async (evt) => {
       evt.preventDefault();
@@ -70,16 +71,16 @@ export const RegisterForm = (props: RegisterFormProps) => {
         ].every((value) => value)
       ) {
         if (password === confirmPassword) {
-          const response = await axios.post(
-            "http://localhost:3000/register",
-            { email, password, firstName, lastName, confirmPassword },
-            {
+          await postRequest({
+            url: "http://localhost:3000/register",
+            config: {
               headers: {
                 "Content-Type": "application/json",
               },
-            }
-          );
-          alert(`submitted login, got response: ${JSON.stringify(response)}`);
+            },
+            data: { email, password, firstName, lastName, confirmPassword },
+            redirect: (url) => history.push(url),
+          });
         } else {
           setPassword("");
           setConfirmPassword("");

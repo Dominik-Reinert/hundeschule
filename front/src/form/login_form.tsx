@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 import { useFormState, VALIDATION_TYPE } from "../hooks/use_form_state";
 import { postRequest } from "../request/post_request";
 import { TextInputComponent } from "../text_input/text_input_component";
@@ -24,11 +25,12 @@ export const LoginForm = (props: LoginFormProps) => {
     VALIDATION_TYPE.PASSWORD_INPUT,
     "Please enter your password!"
   );
+  const history = useHistory();
   const handleSubmit = React.useCallback(
     async (evt) => {
       evt.preventDefault();
       if ([validatePassword(), validateEmail()].every((value) => value)) {
-        const response = postRequest({
+        await postRequest({
           url: "http://localhost:3000/login",
           data: { email, password },
           config: {
@@ -36,6 +38,7 @@ export const LoginForm = (props: LoginFormProps) => {
               "Content-Type": "application/json",
             },
           },
+          redirect: (url) => history.push(url),
         });
       }
     },

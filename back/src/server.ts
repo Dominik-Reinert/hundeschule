@@ -119,7 +119,7 @@ app.post("/login", async (req, res) => {
       });
 
       // Redirect user to the protected page
-      res.redirect("/home");
+      res.status(200).send({ redirectUrl: "/home" });
     } else {
       throw new WrongCredentialsError();
     }

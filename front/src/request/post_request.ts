@@ -8,13 +8,15 @@ export interface PostRequestParams {
   url: string;
   data?: any;
   config?: AxiosRequestConfig;
+  redirect?: (newUrl: string) => void;
 }
 
 export async function postRequest<
-  T extends { notification?: string },
+  T extends { notification?: string; redirectUrl?: string },
   R extends AxiosResponse<T> = AxiosResponse<T>
 >(params: PostRequestParams): Promise<R> {
   let notification: string;
+  let redirectUrl: string;
   let permanent: boolean = false;
   let type: NotificationType = NotificationType.INFO;
   let response: R;
@@ -29,6 +31,7 @@ export async function postRequest<
         ? NotificationType.INFO
         : NotificationType.ERROR;
     notification = response.data?.notification;
+    redirectUrl = response.data?.redirectUrl;
   } catch (error) {
     console.error(error);
     permanent = true;
@@ -42,6 +45,10 @@ export async function postRequest<
       text: notification,
       type,
     });
+  }
+
+  if (redirectUrl && params.redirect) {
+    params.redirect(redirectUrl);
   }
 
   return response;
