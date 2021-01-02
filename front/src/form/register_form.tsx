@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as React from "react";
 import { useFormState, VALIDATION_TYPE } from "../hooks/use_form_state";
-import { DescribedTextInput } from "../text_input/described_text_input";
+import { TextInputComponent } from "../text_input/text_input_component";
 import { FormComponent } from "./form_component";
 
 export interface RegisterFormProps {
@@ -101,37 +101,32 @@ export const RegisterForm = (props: RegisterFormProps) => {
       onSubmit={handleLogin}
       onSecondaryControlClick={props.onGoToLoginClick}
     >
-      <DescribedTextInput
-        description="first name"
+      <TextInputComponent
         hint="first name"
         onChange={(newFirstName) => setFirstName(newFirstName)}
         {...firstNameFormState}
         required={true}
       />
-      <DescribedTextInput
-        description="last name"
+      <TextInputComponent
         hint="last name"
         onChange={(newLastName) => setLastName(newLastName)}
         {...lastNameFormState}
         required={true}
       />
-      <DescribedTextInput
-        description="email"
+      <TextInputComponent
         hint="enter your email adress"
         onChange={(newEmail) => setEmail(newEmail)}
         {...emailFormState}
         required={true}
       />
-      <DescribedTextInput
-        description="password"
+      <TextInputComponent
         hint="*****"
         onChange={(newPassword) => setPassword(newPassword)}
         {...passwordFormState}
         renderAsPasswd={true}
         required={true}
       />
-      <DescribedTextInput
-        description="confirm password"
+      <TextInputComponent
         hint="*****"
         onChange={(newPassword) => setConfirmPassword(newPassword)}
         {...confirmPasswordFormState}

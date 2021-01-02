@@ -13,7 +13,7 @@ interface FormComponentProps {
   };
   secondaryControlLabel?: string;
   onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
-  onSecondaryControlClick?: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSecondaryControlClick?: () => void;
 }
 
 export const FormComponent = (
@@ -39,6 +39,7 @@ export const FormComponent = (
           <ButtonComponent
             label={props.secondaryControlLabel}
             secondary={true}
+            onClick={props.onSecondaryControlClick}
           />
         </div>
       ) : undefined}
